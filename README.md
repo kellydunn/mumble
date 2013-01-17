@@ -27,5 +27,21 @@ I want to be able to use my monome with the mutable-instrument's shruti!
 
 # roadmap
 
-  - map incoming osc signals from monome to midi mappings
   - provide different key mappings
+  - provide more interesting midi controls like the following:
+
+```
++---+---+---+---+---+---+---+---+
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
++---+---+---+---+---+---+---+---+
+
+0: vel down
+1: vel up
+2: key down
+3: key up
+4: ??? (record midi file?)
+5: ??? (record midi file?)
+6: pitch bend down (press enabled; duration for monome or pressure for chronome)
+7: pitch bend up   (press enabled; duration for monome or pressure for chronome)
+
+```
