@@ -3,7 +3,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <monome.h>
-#include <lo/lo.h> 
 
 // TODO Read port from serialoscd
 #define MONOME_DEVICE "osc.udp://127.0.0.1:13437/monome"
@@ -31,7 +30,7 @@ typedef struct _mumble_muxer_t {
 } mumble_muxer_t;
 
 static void button_handler(const monome_event_t *e, void *user_data) { 
-  mumble_muxer_t muxer = (mumble_muxer_t*) user_data;
+  mumble_muxer_t * muxer = (mumble_muxer_t*) user_data;
 
   // TODO Would be good to refactor this out from muxer
   //      and dispatched functions as well
