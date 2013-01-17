@@ -13,7 +13,7 @@ oscmidimumblbmmfbbt~-..
 
 # what 
 
-a derpy little utility that helps monomes talk midi directly to synthsizers
+a derpy little utility that helps monomes talk midi
 
 # why
 
@@ -22,8 +22,6 @@ I want to be able to use my monome with the mutable-instrument's shruti!
 # deps
 
   - libmonome
-  - liblo
-  - libusb ? (not sure if midi devices connected via usb need to communicate through usb)
 
 # roadmap
 
