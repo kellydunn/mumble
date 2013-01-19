@@ -3,31 +3,11 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <monome.h>
+#include "mumble/muxer.h"
+#include "mumble/midi.h"
 
 // TODO Read port from serialoscd
 #define MONOME_DEVICE "osc.udp://127.0.0.1:13437/monome"
-
-// TODO Research midi device daemon?
-#define MIDI_DEVICE "/dev/midi"
-#define MIDI_NOTE_ON 0x90
-#define MIDI_NOTE_OFF 0x80
-
-// ROADMAP Somehow account for custom scales
-#define LOW_C 36
-
-// TODO Handle note velocity more elegantly
-#define VELOCITY 127 
-
-typedef void (*dispatch_func) (const monome_event_t *e, void *user_data);
-
-typedef struct _mumble_dispatcher_t {
-  dispatch_func (*dispatch_func)();
-} mumble_dispatcher_t;
-
-typedef struct _mumble_muxer_t {
-  int midi_fd; // TODO Determine if needed, or should be designed better
-  mumble_dispatcher_t* dispatchers;
-} mumble_muxer_t;
 
 static void button_handler(const monome_event_t *e, void *user_data) { 
   mumble_muxer_t * muxer = (mumble_muxer_t*) user_data;
@@ -45,35 +25,6 @@ static void button_handler(const monome_event_t *e, void *user_data) {
 
   mumble_dispatcher_t * dispatcher = &(muxer->dispatchers[((event_y + 1) * rows) + event_x]);
   dispatcher->dispatch_func(e, user_data);
-}
-
-// TODO Reorganize out into midi_funcs.c or something
-void play_midi(const monome_event_t *e, void *user_data) {
-
-  // TODO Would be good to refactor this out from muxer
-  //      and dispatched functions as well
-  int event_x, event_y, event_type;
-
-  event_x = e->grid.x;
-  event_y = e->grid.y;
-  event_type = e->event_type;
-
-  unsigned char midi_data[3];
-  int midi_note = ((LOW_C * (event_y + 1)) + event_x);
-
-  midi_data[1] = midi_note;
-  midi_data[2] = VELOCITY;
-
-  if(event_type == MONOME_BUTTON_DOWN) {
-    midi_data[0] = MIDI_NOTE_ON;
-    monome_led_on(e->monome, event_x, event_y);
-  } else {
-    midi_data[0] = MIDI_NOTE_OFF;
-    monome_led_off(e->monome, event_x, event_y);
-  }  
-  
-  int midi_fd = ((mumble_muxer_t *)user_data)->midi_fd;
-  write(midi_fd, midi_data, sizeof(midi_data));
 }
 
 int main() {
