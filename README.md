@@ -26,6 +26,7 @@ I want to be able to use my monome with the mutable-instrument's shruti!
 # roadmap
 
   - provide different key mappings
+  - provide the ability to customize the midi muxer
   - provide more interesting midi controls like the following:
 
 ```

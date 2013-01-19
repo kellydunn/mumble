@@ -1,9 +1,4 @@
-#include <linux/soundcard.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <monome.h>
-#include "mumble/muxer.h"
+#include "mumble.h"
 #include "mumble/midi.h"
 
 // TODO Read port from serialoscd
@@ -27,9 +22,17 @@ static void button_handler(const monome_event_t *e, void *user_data) {
   dispatcher->dispatch_func(e, user_data);
 }
 
-int main() {
+// SPEC 
+//   - initialize monome
+//   - register callbacks
+//   - open midi device
+// TODO
+//   - Error handling
+void mumble_init(mumble_t* mumble) {
   monome_t *monome;
   mumble_muxer_t *muxer;
+
+  mumble = malloc(sizeof(mumble_t));
   
   if(!(monome = monome_open(MONOME_DEVICE, "8000"))) {
     printf("Couldn't open monome\n");
@@ -60,13 +63,21 @@ int main() {
     return 1;
   }
 
-  monome_register_handler(monome, MONOME_BUTTON_DOWN, button_handler, (void *)muxer);
-  monome_register_handler(monome, MONOME_BUTTON_UP, button_handler, (void *)muxer);
+  mumble->monome = monome;
+  mumble->muxer = muxer;
+}
 
-  monome_event_loop(monome);
+int main() {
+  mumble_t * mumble;
+  mumble_init(mumble);
 
-  monome_close(monome);
-  close(muxer->midi_fd);
+  monome_register_handler(mumble->monome, MONOME_BUTTON_DOWN, button_handler, (void *)mumble->muxer);
+  monome_register_handler(mumble->monome, MONOME_BUTTON_UP, button_handler, (void *)mumble->muxer);
+
+  monome_event_loop(mumble->monome);
+
+  monome_close(mumble->monome);
+  close(mumble->muxer->midi_fd);
 
   return 0;
 }
