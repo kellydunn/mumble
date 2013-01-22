@@ -44,8 +44,9 @@ int mumble_init(mumble_t* mumble) {
   int monome_cols = monome_get_cols(monome);
   muxer = malloc(sizeof(muxer) * monome_rows * monome_cols);
 
-  // TODO Control functions
-  //      For now, everything plays a midi note
+  // TODO Refactor into mumble_mux_t and introduce
+  //      A configuration file that can be customized
+  //      that contains a default mux
   int x, y;
   for(x = 0; x < monome_rows; x++) {
     for(y = 0; y < monome_cols; y++) {
