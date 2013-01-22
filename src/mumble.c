@@ -28,7 +28,7 @@ static void button_handler(const monome_event_t *e, void *user_data) {
 //   - open midi device
 // TODO
 //   - Error handling
-void mumble_init(mumble_t* mumble) {
+int mumble_init(mumble_t* mumble) {
   monome_t *monome;
   mumble_muxer_t *muxer;
 
@@ -60,16 +60,23 @@ void mumble_init(mumble_t* mumble) {
   muxer->midi_fd = open(MIDI_DEVICE, O_WRONLY, 0);
   if (muxer->midi_fd < 0) {
     printf("Error:  Could not open %s\n", MIDI_DEVICE);
-    return 1;
+    return -1;
   }
 
   mumble->monome = monome;
   mumble->muxer = muxer;
+  return 0;
 }
 
 int main() {
   mumble_t * mumble;
-  mumble_init(mumble);
+  int err;
+
+  err = mumble_init(mumble);
+  if(err < 0) {
+    printf("Could not start mumble.\n");
+    return -1;
+  }
 
   monome_register_handler(mumble->monome, MONOME_BUTTON_DOWN, button_handler, (void *)mumble->muxer);
   monome_register_handler(mumble->monome, MONOME_BUTTON_UP, button_handler, (void *)mumble->muxer);
