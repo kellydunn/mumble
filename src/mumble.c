@@ -5,7 +5,7 @@
 #define MONOME_DEVICE "osc.udp://127.0.0.1:13437/monome"
 
 static void button_handler(const monome_event_t *e, void *user_data) { 
-  mumble_muxer_t * muxer = (mumble_muxer_t*) user_data;
+  mumble_t * mumble = (mumble_t*) user_data;
 
   // TODO Would be good to refactor this out from muxer
   //      and dispatched functions as well
@@ -18,7 +18,7 @@ static void button_handler(const monome_event_t *e, void *user_data) {
   int rows = monome_get_rows(e->monome);
   int cols = monome_get_cols(e->monome);
 
-  mumble_dispatcher_t * dispatcher = &(muxer->dispatchers[((event_y + 1) * rows) + event_x]);
+  mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[((event_y + 1) * rows) + event_x]);
   dispatcher->dispatch_func(e, user_data);
 }
 
@@ -57,8 +57,8 @@ int mumble_init(mumble_t* mumble) {
   }
 
   // TODO handle more gracefully
-  muxer->midi_fd = open(MIDI_DEVICE, O_WRONLY, 0);
-  if (muxer->midi_fd < 0) {
+  mumble->midi_fd = open(MIDI_DEVICE, O_WRONLY, 0);
+  if (mumble->midi_fd < 0) {
     printf("Error:  Could not open %s\n", MIDI_DEVICE);
     return -1;
   }
@@ -78,13 +78,13 @@ int main() {
     return -1;
   }
 
-  monome_register_handler(mumble->monome, MONOME_BUTTON_DOWN, button_handler, (void *)mumble->muxer);
-  monome_register_handler(mumble->monome, MONOME_BUTTON_UP, button_handler, (void *)mumble->muxer);
+  monome_register_handler(mumble->monome, MONOME_BUTTON_DOWN, button_handler, (void *)mumble);
+  monome_register_handler(mumble->monome, MONOME_BUTTON_UP, button_handler, (void *)mumble);
 
   monome_event_loop(mumble->monome);
 
   monome_close(mumble->monome);
-  close(mumble->muxer->midi_fd);
+  close(mumble->midi_fd);
 
   return 0;
 }

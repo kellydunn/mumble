@@ -6,6 +6,7 @@
 #include "mumble/muxer.h"
 
 typedef struct _mumble_t {
+  int midi_fd;
   monome_t * monome;
   mumble_muxer_t * muxer;
 } mumble_t;
