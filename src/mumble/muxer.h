@@ -11,6 +11,5 @@ typedef struct _mumble_dispatcher_t {
 } mumble_dispatcher_t;
 
 typedef struct _mumble_muxer_t {
-  int midi_fd; // TODO Determine if needed, or should be designed better
   mumble_dispatcher_t* dispatchers;
 } mumble_muxer_t;
