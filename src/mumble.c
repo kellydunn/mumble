@@ -65,6 +65,8 @@ int mumble_init(mumble_t* mumble) {
 
   mumble->monome = monome;
   mumble->muxer = muxer;
+  mumble->root = LOW_C;
+  mumble->velocity = VELOCITY;
   return 0;
 }
 
