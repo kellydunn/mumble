@@ -1,5 +1,5 @@
-#include "mumble.h"
 #include "mumble/midi.h"
+#include "mumble.h"
 
 // TODO Read port from serialoscd
 #define MONOME_DEVICE "osc.udp://127.0.0.1:13437/monome"

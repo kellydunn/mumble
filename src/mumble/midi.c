@@ -1,4 +1,4 @@
-#include "muxer.h"
+#include "../mumble.h"
 #include "midi.h"
 
 void play_midi(const monome_event_t *e, void *user_data) {
@@ -25,6 +25,6 @@ void play_midi(const monome_event_t *e, void *user_data) {
     monome_led_off(e->monome, event_x, event_y);
   }  
   
-  int midi_fd = ((mumble_muxer_t *)user_data)->midi_fd;
+  int midi_fd = ((mumble_t *)user_data)->midi_fd;
   write(midi_fd, midi_data, sizeof(midi_data));
 }

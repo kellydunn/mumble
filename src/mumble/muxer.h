@@ -1,10 +1,6 @@
-#include <linux/soundcard.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
 #include <monome.h>
 
-typedef void (*dispatch_func) (const monome_event_t *e, void *user_data);
+typedef void (*dispatch_func)(const monome_event_t *e, void *user_data);
 
 typedef struct _mumble_dispatcher_t {
   dispatch_func (*dispatch_func)(const monome_event_t *e, void *user_data);

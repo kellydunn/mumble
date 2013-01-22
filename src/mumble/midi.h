@@ -1,7 +1,3 @@
-#include <linux/soundcard.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
 #include <monome.h>
 
 // TODO Research midi device daemon?
