@@ -34,6 +34,7 @@ int mumble_init(mumble_t* mumble) {
 
   mumble = malloc(sizeof(mumble_t));
   
+  // TODO this shit should bail like wtf maygn
   monome = monome_open(MONOME_DEVICE, "8000");
   if(&monome == NULL) {
     printf("Couldn't open monome\n");
