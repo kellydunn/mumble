@@ -34,7 +34,8 @@ int mumble_init(mumble_t* mumble) {
 
   mumble = malloc(sizeof(mumble_t));
   
-  if(!(monome = monome_open(MONOME_DEVICE, "8000"))) {
+  monome = monome_open(MONOME_DEVICE, "8000");
+  if(&monome == NULL) {
     printf("Couldn't open monome\n");
     return -1;
   }
@@ -72,6 +73,7 @@ int mumble_init(mumble_t* mumble) {
 }
 
 int main() {
+
   mumble_t * mumble;
   int err;
 
