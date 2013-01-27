@@ -27,6 +27,7 @@ I want to be able to use my monome with the mutable-instrument's shruti!
 
   - provide different key mappings
   - provide the ability to customize the midi muxer
+  - provide a way to customize default midi device
   - provide more interesting midi controls like the following:
 
 ```
@@ -50,8 +51,11 @@ I want to be able to use my monome with the mutable-instrument's shruti!
 I'm currently using arch linux, so creating midi pipes for the sake of development requires some setup:
 
 ```
-timidity -iA
+# A way to virutalize MIDI ports
+timidity -iA  
 sudo modprobe snd-virmidi
+
+# Connecting Virtual MIDI ports to other MIDI-consumable services (like Hydrogen)
 aconnect <midi-through-port-address>:0 <timidity-forward-port-address>:0
 <edit mumble configuration to point to /dev/snd/midiC1D0 or something similar>
 ```
