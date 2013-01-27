@@ -5,6 +5,8 @@ void play_midi(const monome_event_t *e, void *user_data) {
 
   // TODO Would be good to refactor this out from muxer
   //      and dispatched functions as well
+  printf("  Executing Callback...");
+
   int event_x, event_y, event_type;
   mumble_t *mumble = (mumble_t *) user_data;
 

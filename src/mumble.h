@@ -21,4 +21,4 @@ typedef struct _mumble_t {
 } mumble_t;
 
 static void button_handler(const monome_event_t *e, void *user_data);
-int mumble_init(mumble_t* mumble);
+mumble_t * mumble_init(mumble_t* mumble);

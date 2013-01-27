@@ -1,7 +1,7 @@
 #include <monome.h>
 
 // TODO Research midi device daemon?
-#define MIDI_DEVICE "/dev/snd/midiC1D0"
+#define MIDI_DEVICE "/dev/midi1"
 
 // MIDI Protocol
 #define MIDI_NOTE_ON 0x90
