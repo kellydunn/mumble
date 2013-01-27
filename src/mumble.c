@@ -21,12 +21,14 @@ static void button_handler(const monome_event_t *e, void *user_data) {
   event_y = e->grid.y;
   event_type = e->event_type;
 
-  int rows = monome_get_rows(e->monome);
-  int cols = monome_get_cols(e->monome);
+  //int rows = monome_get_rows(e->monome);
+  //int cols = monome_get_cols(e->monome);
 
-  printf("Dispatching event: [%d, %d]\n", event_x, event_y);
-  
-  mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[((event_y + 1) * rows) + event_x]);
+  int rows = 8;
+  int cols = 8;
+
+  printf("Dispatching event: [%d, %d] to callback: %d\n", event_x, event_y, ((event_y * rows) + (event_x)));  
+  mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[((event_y) * rows-1) + event_x]);
 
   if(dispatcher == NULL) {
     printf("  Error finding associated callback.\n");
@@ -75,9 +77,10 @@ mumble_t * mumble_init(mumble_t* mumble) {
     printf("  Error initializing muxer.");
   }
 
-  muxer->dispatchers = malloc(sizeof(mumble_dispatcher_t) * monome_rows * monome_cols);
+  muxer->dispatchers = malloc((sizeof(mumble_dispatcher_t) * monome_rows * monome_cols));
 
   printf("done.\n");
+
   // TODO Refactor into mumble_mux_t and introduce
   //      A configuration file that can be customized
   //      that contains a default mux
@@ -85,13 +88,15 @@ mumble_t * mumble_init(mumble_t* mumble) {
 
   printf("Attaching callbacks...");
   for(x = 0; x < monome_rows; x++) {
-    printf("  row: %d\n", x);
     for(y = 0; y < monome_cols; y++) {
-      printf("  col: %d\n",y);
+      printf("  initializing: [%d, %d]\n",x, y);
       mumble_dispatcher_t *dispatcher;
       dispatcher = malloc(sizeof(mumble_dispatcher_t));
       dispatcher->dispatch_func = play_midi;
-      *(muxer->dispatchers++) = *dispatcher;
+      muxer->dispatchers[(y*8) +x] = *dispatcher;
+      if(&(muxer->dispatchers[(y * 8) + x]) == NULL) {
+        printf("  Couldn't attach callback\n");
+      }
     }
   }
   printf("done.\n");
