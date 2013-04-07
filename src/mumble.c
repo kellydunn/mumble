@@ -3,7 +3,7 @@
 #include <monome.h>
 
 // TODO Read port from serialoscd
-#define MONOME_DEVICE "osc.udp://127.0.0.1:15291/monome"
+#define MONOME_DEVICE "osc.udp://127.0.0.1:10824/monome"
 
 static void button_handler(const monome_event_t *e, void *user_data) { 
   printf("Handler called:");
@@ -61,45 +61,7 @@ mumble_t * mumble_init(mumble_t* mumble) {
   monome = monome_open(MONOME_DEVICE, "8000");
   printf("done.\n");
 
-  // TODO Refactor into new_mumble_muxer() or some-such
-  /* TODO monome_get_rows and monome_get_cols return 0 ?!
-  int monome_rows = monome_get_rows(monome);
-  int monome_cols = monome_get_cols(monome);
-  printf("\n  monome rows detected: %d\n", monome_rows);
-  printf("\n  monome cols detected: %d\n", monome_cols);
-  */
-  printf("Initializing muxer... ");
-  int monome_rows = 8;
-  int monome_cols = 8;
-  muxer = malloc(sizeof(mumble_muxer_t));
-
-  if(muxer == NULL) {
-    printf("  Error initializing muxer.");
-  }
-
-  muxer->dispatchers = malloc((sizeof(mumble_dispatcher_t) * monome_rows * monome_cols));
-
-  printf("done.\n");
-
-  // TODO Refactor into mumble_mux_t and introduce
-  //      A configuration file that can be customized
-  //      that contains a default mux
-  int x, y;
-
-  printf("Attaching callbacks...");
-  for(x = 0; x < monome_rows; x++) {
-    for(y = 0; y < monome_cols; y++) {
-      printf("  initializing: [%d, %d]\n",x, y);
-      mumble_dispatcher_t *dispatcher;
-      dispatcher = malloc(sizeof(mumble_dispatcher_t));
-      dispatcher->dispatch_func = play_midi;
-      muxer->dispatchers[(y*8) +x] = *dispatcher;
-      if(&(muxer->dispatchers[(y * 8) + x]) == NULL) {
-        printf("  Couldn't attach callback\n");
-      }
-    }
-  }
-  printf("done.\n");
+  muxer = mumble_muxer_init(muxer, mumble);
 
   // TODO handle more gracefully
   printf("Opening midi device...");
