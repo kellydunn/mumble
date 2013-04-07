@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <monome.h>
+
 #include "mumble/muxer.h"
+//#include "mumble/midi.h"
 
 // ROADMAP Somehow account for custom scales
 #define LOW_C 36
@@ -12,12 +14,16 @@
 // TODO Handle note velocity more elegantly
 #define VELOCITY 127 
 
+// ROADMAP Provide bpm configuration
+#define BPM 120.0
+
 typedef struct _mumble_t {
   int midi_fd;
   monome_t * monome;
   mumble_muxer_t * muxer;
   int root;
   int velocity;
+  float bpm;
 } mumble_t;
 
 static void button_handler(const monome_event_t *e, void *user_data);

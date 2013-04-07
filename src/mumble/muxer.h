@@ -1,7 +1,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include <monome.h>
-#include "midi.h"
+//#include "midi.h"
 
 typedef void (*dispatch_func)(const monome_event_t *e, void *user_data);
 

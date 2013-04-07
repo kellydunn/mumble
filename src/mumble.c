@@ -1,5 +1,5 @@
-#include "mumble/midi.h"
 #include "mumble.h"
+#include "mumble/midi.h"
 #include <monome.h>
 
 // TODO Read port from serialoscd
@@ -8,10 +8,6 @@
 static void button_handler(const monome_event_t *e, void *user_data) { 
   printf("Handler called:");
   mumble_t *mumble = (mumble_t*) user_data;
-
-  if(&(mumble->muxer->dispatchers[0]) == NULL) {
-    printf("\nWHAT\n\n");
-  }
 
   // TODO Would be good to refactor this out from muxer
   //      and dispatched functions as well
@@ -43,23 +39,13 @@ static void button_handler(const monome_event_t *e, void *user_data) {
   dispatcher->dispatch_func(e, user_data);
 }
 
-// SPEC 
-//   - initialize monome
-//   - register callbacks
-//   - open midi device
-// TODO
-//   - Error handling
+// Initializes a mumble session 
 mumble_t * mumble_init(mumble_t* mumble) {
   monome_t *monome;
   mumble_muxer_t *muxer;
 
-  printf("Initializing mumble...");
   mumble = malloc(sizeof(mumble_t));
-  printf("done.\n");
-
-  printf("Opening monome...");
   monome = monome_open(MONOME_DEVICE, "8000");
-  printf("done.\n");
 
   muxer = mumble_muxer_init(muxer, mumble);
 
@@ -72,25 +58,15 @@ mumble_t * mumble_init(mumble_t* mumble) {
   }
   printf("done.\n");
 
-  printf("Attaching monome to session...");
   mumble->monome = monome;
   if(&mumble->monome == NULL) {
-    printf("Error: Could not attach monome.\n");
     return NULL;
   }
-  printf("done.\n");
 
-  printf("Attaching muxer to session...");
   mumble->muxer = muxer;
-  printf("done.\n");
-
-  printf("Setting session root note...");
   mumble->root = LOW_C;
-  printf("done.\n");
-
-  printf("Setting session root velocity...");
   mumble->velocity = VELOCITY;
-  printf("done.\n");
+  mumble->bpm = BPM;
 
   return mumble;
 }

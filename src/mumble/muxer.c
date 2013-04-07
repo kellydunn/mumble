@@ -1,3 +1,4 @@
+#include "midi.h"
 #include "muxer.h"
 
 // TODO Scope out a bit more.  
