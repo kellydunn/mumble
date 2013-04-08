@@ -25,7 +25,7 @@ typedef struct midi_time_event midi_time_event_t;
 typedef struct midi_header midi_header_t;
 typedef struct midi_chunk midi_chunk_t;
 
-// mumble.h -- Implementation
+// mumble.h [impl]
 struct mumble {
   int midi_fd;
   monome_t * monome;
@@ -36,7 +36,7 @@ struct mumble {
   float bpm;
 };
 
-// muxer.h -- Implementation
+// muxer.h [impl]
 typedef void (*dispatch_func)(const monome_event_t *e, void *user_data);
 
 struct mumble_dispatcher {
@@ -47,19 +47,21 @@ struct mumble_muxer {
   mumble_dispatcher_t* dispatchers;
 };
 
-// session.h -- Implementation
+// session.h [impl]
 struct mumble_session {
   // TODO Implement
   bool recording;
   mumble_sample_t * samples;
 };
 
-// sample.h -- Implementation
+// sample.h [impl]
 struct mumble_sample {
   // TODO Implement
+  int inst;
+  midi_time_event_t * event;
 };
 
-// midi.h -- Implementation
+// midi.h [impl]
 struct midi_time_event {
   char * delta_time;
   char * midi_event;
