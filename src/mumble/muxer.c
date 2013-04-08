@@ -33,12 +33,6 @@ mumble_muxer_t * mumble_muxer_init(mumble_muxer_t * muxer) {
   for(x = 0; x < monome_rows; x++) {
     for(y = 0; y < monome_cols; y++) {
       printf("  initializing: [%d, %d]\n",x, y);
-      /*
-      mumble_dispatcher_t *dispatcher;
-      dispatcher = malloc(sizeof(mumble_dispatcher_t));
-      dispatcher->dispatch_func = play_midi;
-      muxer->dispatchers[(y*8) +x] = *dispatcher;
-      */
       handle_func(muxer, ((y*8) + x), play_midi);
       if(&(muxer->dispatchers[(y * 8) + x]) == NULL) {
         printf("  Couldn't attach callback\n");
@@ -47,12 +41,6 @@ mumble_muxer_t * mumble_muxer_init(mumble_muxer_t * muxer) {
   }
 
   // Attach the start_recording method to the 4th button in the first row
-  /*
-  mumble_dispatcher_t *dispatcher;
-  dispatcher = malloc(sizeof(mumble_dispatcher_t));
-  dispatcher->dispatch_func = start_recording;
-  muxer->dispatchers[3] = *dispatcher;
-  */
   handle_func(muxer, 3, record_midi);
 
   printf("done.\n");
