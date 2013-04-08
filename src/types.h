@@ -1,7 +1,10 @@
-#include <monome.h>
+// These are the structs, anonymous functions, and other general types
+// That are used by mumble to do all sorts of wonderful things.
 
 #ifndef _MUMBLE_TYPES_H
 #define _MUMBLE_TYPES_H
+
+#include <monome.h>
 
 // GLOBALS
 // Convience boolean handling
