@@ -1,6 +1,4 @@
 #include "mumble.h"
-#include "mumble/midi.h"
-#include <monome.h>
 
 // TODO Read port from serialoscd
 #define MONOME_DEVICE "osc.udp://127.0.0.1:10824/monome"
@@ -43,11 +41,13 @@ static void button_handler(const monome_event_t *e, void *user_data) {
 mumble_t * mumble_init(mumble_t* mumble) {
   monome_t *monome;
   mumble_muxer_t *muxer;
+  mumble_session_t *session;
 
   mumble = malloc(sizeof(mumble_t));
   monome = monome_open(MONOME_DEVICE, "8000");
 
-  muxer = mumble_muxer_init(muxer, mumble);
+  muxer = mumble_muxer_init(muxer);
+  session = mumble_session_init(session);
 
   // TODO handle more gracefully
   printf("Opening midi device...");
@@ -95,3 +95,23 @@ int main() {
 
   return 0;
 }
+
+// Generates a midi message from a monome event.
+unsigned char * midi_data_from_monome_event(unsigned char * midi_data, const monome_event_t * e, void *user_data) {
+  int midi_note_message_len = 3;
+  midi_data = (unsigned char *)calloc(midi_note_message_len, sizeof(unsigned char));
+
+  int event_x, event_y, event_type;
+  mumble_t *mumble = (mumble_t *) user_data;
+
+  event_x = e->grid.x;
+  event_y = e->grid.y;
+  event_type = e->event_type;  
+
+  int midi_note = ((mumble->root * (event_y + 1)) + event_x);  
+  midi_data[1] = midi_note;
+  midi_data[2] = mumble->velocity;  
+
+  return midi_data;
+}
+

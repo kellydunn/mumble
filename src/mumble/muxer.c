@@ -1,5 +1,5 @@
-#include "midi.h"
 #include "muxer.h"
+#include "dispatcher_functions.h"
 
 // TODO Scope out a bit more.  
 //      Seems weird that I need to know about the session in order to create the muxer
@@ -46,3 +46,4 @@ mumble_muxer_t * mumble_muxer_init(mumble_muxer_t * muxer) {
 
   return muxer;
 }
+
