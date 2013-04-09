@@ -5,8 +5,8 @@
 #define _MUMBLE_TYPES_H
 
 #include <monome.h>
+#include "time.h"
 
-// GLOBALS
 // Convience boolean handling
 typedef enum { false, true } bool;
 
@@ -20,13 +20,17 @@ typedef struct mumble_dispatcher mumble_dispatcher_t;
 // session.h
 typedef struct mumble_session mumble_session_t;
 
-// sample.h
-typedef struct mumble_sample mumble_sample_t;
+// loop.h
+typedef struct mumble_loop mumble_loop_t;
 
 // midi.h
-typedef struct midi_time_event midi_time_event_t;
-typedef struct midi_header midi_header_t;
-typedef struct midi_chunk midi_chunk_t;
+typedef struct mumble_midi_event mumble_midi_event_t;
+typedef struct mumble_midi_header mumble_midi_header_t;
+typedef struct mumble_midi_chunk mumble_midi_chunk_t;
+
+// list.h
+typedef struct mumble_list mumble_list_t;
+typedef struct mumble_list_node mumble_list_node_t;
 
 // mumble.h [impl]
 struct mumble {
@@ -52,25 +56,24 @@ struct mumble_muxer {
 
 // session.h [impl]
 struct mumble_session {
-  // TODO Implement
   bool recording;
-  mumble_sample_t * samples;
+  mumble_loop_t * loops;
 };
 
-// sample.h [impl]
-struct mumble_sample {
-  // TODO Implement
+// loop.h [impl]
+struct mumble_loop {
+  struct timespec start, stop;
   int inst;
-  midi_time_event_t * event;
+  mumble_list_t * events;
 };
 
 // midi.h [impl]
-struct midi_time_event {
-  char * delta_time;
+struct mumble_midi_event {
+  struct timespec timestamp;
   char * midi_event;
 };
 
-struct midi_header {
+struct mumble_midi_header {
   char * magic;
   uint32_t length;
   int format_type;
@@ -78,10 +81,23 @@ struct midi_header {
   char * time_delta;
 };
 
-struct midi_chunk {
+struct mumble_midi_chunk {
   char * magic;
   uint32_t length;
-  midi_time_event_t * time_events;
+  mumble_midi_event_t * events;
+};
+
+// list.h [impl]
+struct mumble_list {
+  mumble_list_node_t * head;
+  mumble_list_node_t * tail;
+};
+
+struct mumble_list_node {
+  void * data;    // The MIDI Event
+  int delay;      // The delay until the next event
+  mumble_list_node_t * next;
+  mumble_list_node_t * prev;
 };
 
 // MIDI Protocol

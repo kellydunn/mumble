@@ -27,8 +27,11 @@ mumble_muxer_t * mumble_muxer_init(mumble_muxer_t * muxer) {
   // TODO Refactor into mumble_mux_t and introduce
   //      A configuration file that can be customized
   //      that contains a default mux
-  int x, y;
 
+  // Attach the start_recording method to the 4th button in the first row
+  handle_func(muxer, 3, record_midi);
+
+  int x, y;
   printf("Attaching callbacks...");
   for(x = 0; x < monome_rows; x++) {
     for(y = 0; y < monome_cols; y++) {
@@ -39,9 +42,6 @@ mumble_muxer_t * mumble_muxer_init(mumble_muxer_t * muxer) {
       }
     }
   }
-
-  // Attach the start_recording method to the 4th button in the first row
-  handle_func(muxer, 3, record_midi);
 
   printf("done.\n");
 
