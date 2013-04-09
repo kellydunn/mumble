@@ -1,6 +1,6 @@
 CC=gcc
 LDFLAGS= -I/usr/local/lib:/usr/lib
-CFLAGS= -lmonome
+CFLAGS= -lmonome -lpthread
 TARGET_OBJS=bin/build/mumble/*.o
 
 all:

@@ -6,8 +6,8 @@
 
 #include "stdlib.h"
 #include "stdio.h"
-
-// ===
+#include "pthread.h"
+#include "unistd.h"
 
 #include "../types.h"
 #include "loop.h"
@@ -19,5 +19,6 @@ void start_recording(mumble_session_t * session);
 void stop_recording(mumble_session_t * session);
 
 void add_loop(mumble_session_t * session, mumble_loop_t * loop);
+void * session_loop(void * session);
 
 #endif

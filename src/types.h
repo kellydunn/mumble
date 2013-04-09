@@ -57,6 +57,7 @@ struct mumble_muxer {
 // session.h [impl]
 struct mumble_session {
   bool recording;
+  int max_time;
   mumble_list_t * loops;
   mumble_loop_t * current_loop;
 };
@@ -91,6 +92,7 @@ struct mumble_midi_chunk {
 
 // list.h [impl]
 struct mumble_list {
+  int size;
   mumble_list_node_t * head;
   mumble_list_node_t * tail;
 };
@@ -115,6 +117,6 @@ struct mumble_list_node {
 #define MIDI_MICROSECOND_PER_MINUTE .0000000166667
 
 // TODO Research midi device daemon?
-#define MIDI_DEVICE "/dev/midi1"
+#define MIDI_DEVICE "/dev/snd/midiC1D0"
 
 #endif

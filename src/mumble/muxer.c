@@ -30,14 +30,18 @@ mumble_muxer_t * mumble_muxer_init() {
   //      that contains a default mux
 
   // Attach the start_recording method to the 4th button in the first row
-  handle_func(muxer, 3, record_midi);
 
   int x, y;
   printf("Attaching callbacks...");
   for(x = 0; x < monome_rows; x++) {
     for(y = 0; y < monome_cols; y++) {
       printf("  initializing: [%d, %d]\n",x, y);
-      handle_func(muxer, ((y*8) + x), play_midi);
+      if(y == 0) {
+        handle_func(muxer, ((y*8) + x), record_midi);
+      } else {
+        handle_func(muxer, ((y*8) + x), play_midi);
+      }
+
       if(&(muxer->dispatchers[(y * 8) + x]) == NULL) {
         printf("  Couldn't attach callback\n");
       }

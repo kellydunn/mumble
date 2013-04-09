@@ -1,8 +1,9 @@
 #include "dispatcher_functions.h"
 
 void play_midi(const monome_event_t *e, void *user_data) {
+  printf("DISPATCH EVENT [play_midi]\n");
   unsigned char * midi_data;
-  mumble_t *mumble = (mumble_t *) user_data;
+  mumble_t * mumble = (mumble_t *) user_data;
 
   midi_data = midi_data_from_monome_event(midi_data, e, user_data);
 
@@ -14,18 +15,20 @@ void play_midi(const monome_event_t *e, void *user_data) {
     monome_led_off(e->monome, e->grid.x, e->grid.y);
   }  
 
-  if (mumble->session->recording) { 
+  if (mumble->session->recording == true) { 
     // TODO Implement
     //      - Create midi_event_t
     //      - Append it to current loop
+    printf("  Making new mumble midi event\n");
     mumble_midi_event_t * event = calloc(1, sizeof(mumble_midi_event_t));
     event->data = midi_data;
 
     // TODO timestamp / delay    
     add_midi_event(&mumble->session->current_loop, event);
-    printf("recording!");
+    printf("  =*=*= Recording! =*=*=\n");
+  } else {
+    printf("  ~*~*~ Skipping recording! ~*~*~\n");
   }
-
   
   int midi_fd = (mumble->midi_fd);
   write(midi_fd, midi_data, sizeof(midi_data));
@@ -36,11 +39,11 @@ void record_midi(const monome_event_t *e, void *user_data) {
   mumble_t *mumble = (mumble_t *) user_data;
 
   // TODO Somehow refactor with code in #play_midi
+
   if(e->event_type == MONOME_BUTTON_DOWN) {
+    printf("button down!\n");
     start_recording(mumble->session);
+    printf("setting led!\n");
     monome_led_on(e->monome, e->grid.x, e->grid.y);
-  } else {
-    stop_recording(mumble->session);
-    monome_led_off(e->monome, e->grid.x, e->grid.y);
   }
 }

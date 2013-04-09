@@ -1,7 +1,7 @@
 #include "mumble.h"
 
 // TODO Read port from serialoscd
-#define MONOME_DEVICE "osc.udp://127.0.0.1:10824/monome"
+#define MONOME_DEVICE "osc.udp://127.0.0.1:19043/monome"
 
 static void button_handler(const monome_event_t *e, void *user_data) { 
   printf("Handler called:");
@@ -62,6 +62,7 @@ mumble_t * mumble_init(mumble_t* mumble) {
   }
 
   mumble->muxer = muxer;
+  mumble->session = session;
   mumble->root = LOW_C;
   mumble->velocity = VELOCITY;
   mumble->bpm = BPM;
