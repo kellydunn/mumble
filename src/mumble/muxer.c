@@ -35,7 +35,7 @@ mumble_muxer_t * mumble_muxer_init() {
   printf("Attaching callbacks...");
   for(x = 0; x < monome_rows; x++) {
     for(y = 0; y < monome_cols; y++) {
-      printf("  initializing: [%d, %d]\n",x, y);
+      //printf("  initializing: [%d, %d]\n",x, y);
       if(y == 0) {
         handle_func(muxer, ((y*8) + x), record_midi);
       } else {
@@ -53,6 +53,7 @@ mumble_muxer_t * mumble_muxer_init() {
   return muxer;
 }
 
+// Attaches a mumble dispatch_function to a specific button position on the monome
 void handle_func(mumble_muxer_t * muxer, int monome_position, dispatch_func func) {
   mumble_dispatcher_t * dispatcher;
   dispatcher = malloc(sizeof(mumble_dispatcher_t));

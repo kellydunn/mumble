@@ -48,13 +48,10 @@ mumble_list_node_t * list_shift(mumble_list_t * list) {
 
 // Places the passed in val at the end of the list
 void list_append(mumble_list_t * list, void * val) {
-  printf("appending!\n");
   mumble_list_node_t * tmp = calloc(1, sizeof(mumble_list_node_t));
 
-  printf("  saving value.!\n");
   tmp->data = val;
   
-  printf("  attaching tail.!\n");
   if(list->tail != NULL) {
     list->tail->next = tmp;
     tmp->prev = (mumble_list_node_t*) &list->tail;

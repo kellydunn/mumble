@@ -30,9 +30,7 @@ static void button_handler(const monome_event_t *e, void *user_data) {
 
   if(dispatcher->dispatch_func == NULL) {
     printf("  Error finding associated callback function.\n");
-  } else {
-    printf("  We cool.\n");
-  }
+  } 
 
   dispatcher->dispatch_func(e, user_data);
 }

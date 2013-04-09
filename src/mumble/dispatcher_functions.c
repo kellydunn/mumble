@@ -41,9 +41,7 @@ void record_midi(const monome_event_t *e, void *user_data) {
   // TODO Somehow refactor with code in #play_midi
 
   if(e->event_type == MONOME_BUTTON_DOWN) {
-    printf("button down!\n");
     start_recording(mumble->session);
-    printf("setting led!\n");
     monome_led_on(e->monome, e->grid.x, e->grid.y);
   }
 }
