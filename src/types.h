@@ -57,7 +57,8 @@ struct mumble_muxer {
 // session.h [impl]
 struct mumble_session {
   bool recording;
-  mumble_loop_t * loops;
+  mumble_list_t * loops;
+  mumble_loop_t * current_loop;
 };
 
 // loop.h [impl]
@@ -70,7 +71,7 @@ struct mumble_loop {
 // midi.h [impl]
 struct mumble_midi_event {
   struct timespec timestamp;
-  char * midi_event;
+  unsigned char * midi_event;
 };
 
 struct mumble_midi_header {

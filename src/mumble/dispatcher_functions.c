@@ -9,18 +9,18 @@ void play_midi(const monome_event_t *e, void *user_data) {
   if(e->event_type == MONOME_BUTTON_DOWN) {
     midi_data[0] = MIDI_NOTE_ON;
     monome_led_on(e->monome, e->grid.x, e->grid.y);
-    if (mumble->session->recording) { 
-      // TODO implment recording functionality
-      printf("recording!");
-    }
   } else {
     midi_data[0] = MIDI_NOTE_OFF;
     monome_led_off(e->monome, e->grid.x, e->grid.y);
-    if (mumble->session->recording) { 
-      // TODO implment recording functionality
-      printf("recording!");
-    }
   }  
+
+  if (mumble->session->recording) { 
+    // TODO Implement
+    //      - Create midi_event_t
+    //      - Append it to current loop
+    printf("recording!");
+  }
+
   
   int midi_fd = (mumble->midi_fd);
   write(midi_fd, midi_data, sizeof(midi_data));

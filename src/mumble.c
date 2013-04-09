@@ -40,14 +40,12 @@ static void button_handler(const monome_event_t *e, void *user_data) {
 // Initializes a mumble session 
 mumble_t * mumble_init(mumble_t* mumble) {
   monome_t *monome;
-  mumble_muxer_t *muxer;
-  mumble_session_t *session;
 
-  mumble = malloc(sizeof(mumble_t));
+  mumble = calloc(1, sizeof(mumble_t));
   monome = monome_open(MONOME_DEVICE, "8000");
 
-  muxer = mumble_muxer_init(muxer);
-  session = mumble_session_init(session);
+  mumble_muxer_t * muxer = (mumble_muxer_t *) mumble_muxer_init();
+  mumble_session_t * session = (mumble_session_t *) mumble_session_init();
 
   // TODO handle more gracefully
   printf("Opening midi device...");
