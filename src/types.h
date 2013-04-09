@@ -71,7 +71,8 @@ struct mumble_loop {
 // midi.h [impl]
 struct mumble_midi_event {
   struct timespec timestamp;
-  unsigned char * midi_event;
+  int delay;      // The delay until the next event
+  unsigned char * data;
 };
 
 struct mumble_midi_header {
@@ -96,7 +97,6 @@ struct mumble_list {
 
 struct mumble_list_node {
   void * data;    // The MIDI Event
-  int delay;      // The delay until the next event
   mumble_list_node_t * next;
   mumble_list_node_t * prev;
 };
