@@ -4,8 +4,8 @@
 #include "../../src/mumble/list.h"
 
 // Ensure a new list can be made
-// - Head should be NULL
-// - Tail should be NULL
+// ✔ Head should be NULL
+// ✔ Tail should be NULL
 START_TEST (test_new_list) {
   mumble_list_t * list = (mumble_list_t *) new_list();
   fail_if(list->head != NULL, "Unexpected list head value");
@@ -14,9 +14,9 @@ START_TEST (test_new_list) {
 } END_TEST
 
 // Ensure a single value is appended to a list as expected
-// - Head should be updated
-// - Tail should be updated
-// - Data should be the same
+// ✔ Head should be updated
+// ✔ Tail should be updated
+// ✔ Data should be the same
 START_TEST (test_append_list) {
   mumble_list_t * list = (mumble_list_t *) new_list();
   char * buf = "test data";
@@ -32,9 +32,9 @@ START_TEST (test_append_list) {
 } END_TEST
 
 // Ensure a single value is appended to a list as expected
-// - Head should be updated
-// - Tail should be updated
-// - Data should be the same
+// ✔ Head should be updated
+// ✔ Tail should be updated
+// ✔ Data should be the same
 START_TEST (test_append_2_list) {
   mumble_list_t * list = (mumble_list_t *) new_list();
   char * buf = "test data";
@@ -57,8 +57,8 @@ START_TEST (test_append_2_list) {
 } END_TEST
 
 // Ensure a single value can be appended then popped off of a list
-// - Data should be as expected
-// - Size should be 0 
+// ✔ Data should be as expected
+// ✔ Size should be 0 
 START_TEST (test_append_1_pop_1_list) {
   mumble_list_t * list = (mumble_list_t *) new_list();
   char * buf = "test data";
@@ -75,9 +75,9 @@ START_TEST (test_append_1_pop_1_list) {
 } END_TEST
 
 // Ensure a single value can be appended then popped off of a list
-// - Data should be as expected
-// - Size should be 1
-// - Head should be the same as tail 
+// ✔ Data should be as expected
+// ✔ Size should be 1
+// ✔ Head should be the same as tail 
 START_TEST (test_append_2_pop_1_list) {
   mumble_list_t * list = (mumble_list_t *) new_list();
   char * buf = "test data";
@@ -98,8 +98,8 @@ START_TEST (test_append_2_pop_1_list) {
 } END_TEST
 
 // Ensure a single value can be appended then popped off of a list
-// - Data should be as expected
-// - Size should be 0
+// ✔ Data should be as expected
+// ✔ Size should be 0
 START_TEST (test_append_2_pop_2_list) {
   mumble_list_t * list = (mumble_list_t *) new_list();
   char * buf = "test data";
