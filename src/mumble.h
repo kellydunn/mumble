@@ -4,7 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <monome.h>
+
 #include "types.h"
+#include "mumble/muxer.h"
+#include "mumble/session.h"
 
 // ROADMAP Somehow account for custom scales
 #define LOW_C 36

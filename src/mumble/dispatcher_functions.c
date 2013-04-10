@@ -24,7 +24,7 @@ void play_midi(const monome_event_t *e, void *user_data) {
     event->data = midi_data;
 
     // TODO timestamp / delay    
-    add_midi_event(&mumble->session->current_loop, event);
+    add_midi_event(mumble->session->current_loop, event);
     printf("  =*=*= Recording! =*=*=\n");
   } else {
     printf("  ~*~*~ Skipping recording! ~*~*~\n");
