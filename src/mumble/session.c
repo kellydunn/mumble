@@ -1,10 +1,11 @@
 #include "session.h"
 
 // TODO Implement
-mumble_session_t * mumble_session_init() {
+mumble_session_t * mumble_session_init(mumble_t * mumble) {
   mumble_session_t * session = calloc(1, sizeof(mumble_session_t));
   session->recording = false;
-  session->loops = calloc(1, sizeof(mumble_list_t));
+  session->loops = new_list();
+  session->mumble = mumble;
 
   // TODO Make this configurable
   //      Default 8 measures of 120 BPM (in milliseconds, could go to nanoseconds for precision)
@@ -54,8 +55,27 @@ void * session_recording_loop(void * data) {
 
   printf("MAX RECORDING TIME.  EXITING LOOP!\n");
   printf("  You recorded %d events\n", session->current_loop->events->size);
+
+  // DEBUG EVENTS PLZ
+  mumble_list_node_t * debug = calloc(1, sizeof(mumble_list_node_t));
+  debug = session->current_loop->events->head;
+  mumble_midi_event_t * ddata = (mumble_midi_event_t *) debug->data;
+  printf("[%d, %d, %d] =>", ddata->monome_event->event_type, ddata->monome_event->grid.x, ddata->monome_event->grid.y);
+
+  while((debug = debug->next) != session->current_loop->events->head) {
+    ddata = (mumble_midi_event_t *) debug->data;
+    printf("[%d, %d, %d] =>", ddata->monome_event->event_type, ddata->monome_event->grid.x, ddata->monome_event->grid.y);
+  }
+
+  printf("\n");
+
   stop_recording(session);
 
-  // TODO Spin off looping thread automatically
+  // TODO Setup a semaphore
+  session->current_loop->looping = true;
+  pthread_t * loop_playback_thread = calloc(1, sizeof(pthread_t));
+  pthread_create(loop_playback_thread, NULL, loop_playback, session->current_loop);
+  pthread_detach(loop_playback_thread);
+  
   return NULL;
 }

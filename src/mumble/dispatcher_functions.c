@@ -3,7 +3,6 @@
 #include "dispatcher_functions.h"
 
 void play_midi(const monome_event_t *e, void *user_data) {
-  printf("DISPATCH EVENT [play_midi]\n");
   unsigned char * midi_data;
   mumble_t * mumble = (mumble_t *) user_data;
 
@@ -21,9 +20,14 @@ void play_midi(const monome_event_t *e, void *user_data) {
     // TODO Implement
     //      - Create midi_event_t
     //      - Append it to current loop
-    printf("  Making new mumble midi event\n");
     mumble_midi_event_t * event = calloc(1, sizeof(mumble_midi_event_t));
+    event->monome_event = calloc(1, sizeof(monome_event_t));
+    event->monome_event->event_type = e->event_type;
+    event->monome_event->grid.x = e->grid.x;
+    event->monome_event->grid.y = e->grid.y;
+    event->monome_event->monome = e->monome;
     event->data = midi_data;
+    event->delay = 1000;
 
     // TODO timestamp / delay    
     add_midi_event(mumble->session->current_loop, event);
@@ -32,8 +36,7 @@ void play_midi(const monome_event_t *e, void *user_data) {
     printf("  ~*~*~ Skipping recording! ~*~*~\n");
   }
   
-  int midi_fd = (mumble->midi_fd);
-  write(midi_fd, midi_data, sizeof(midi_data));
+  mumble_write_to_midi_device(mumble, midi_data);
   free(midi_data);
 }
 

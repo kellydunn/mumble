@@ -43,7 +43,7 @@ mumble_t * mumble_init(mumble_t* mumble) {
   monome = monome_open(MONOME_DEVICE, "8000");
 
   mumble_muxer_t * muxer = (mumble_muxer_t *) mumble_muxer_init();
-  mumble_session_t * session = (mumble_session_t *) mumble_session_init();
+  mumble_session_t * session = (mumble_session_t *) mumble_session_init(mumble);
 
   // TODO handle more gracefully
   printf("Opening midi device...");
@@ -112,3 +112,7 @@ unsigned char * midi_data_from_monome_event(unsigned char * midi_data, const mon
   return midi_data;
 }
 
+void mumble_write_to_midi_device(mumble_t * mumble, unsigned char * midi_data) {
+  int midi_fd = (mumble->midi_fd);
+  write(midi_fd, midi_data, sizeof(midi_data));
+}

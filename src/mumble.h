@@ -24,5 +24,6 @@
 static void button_handler(const monome_event_t *e, void *user_data);
 mumble_t * mumble_init(mumble_t* mumble);
 unsigned char * midi_data_from_monome_event(unsigned char * midi_data, const monome_event_t *e, void *user_data);
+void mumble_write_to_midi_device(mumble_t * mumble, unsigned char * midi_data);
 
 #endif

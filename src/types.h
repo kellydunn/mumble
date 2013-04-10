@@ -60,6 +60,10 @@ struct mumble_session {
   int max_time;
   mumble_list_t * loops;
   mumble_loop_t * current_loop;
+
+  // Seems like this is bloated design; but makes for easier loop_playback *shrug* 
+  // Maybe revisit later
+  mumble_t * mumble;
 };
 
 // loop.h [impl]
@@ -68,12 +72,17 @@ struct mumble_loop {
   int inst;
   bool looping;
   mumble_list_t * events;
+
+  // Seems like this is bloated design; but makes for easier loop_playback *shrug* 
+  // Maybe revisit later
+  mumble_session_t * session;
 };
 
 // midi.h [impl]
 struct mumble_midi_event {
   struct timespec timestamp;
   int delay;      // The delay until the next event
+  monome_event_t * monome_event;
   unsigned char * data;
 };
 
