@@ -17,8 +17,10 @@ void start_recording(mumble_session_t * session) {
     session->recording = true;
     // TODO fire off a thread that will stop recording at the MAX_TIME of this session
     //      Defined as BPM/60 * measures * 1000 (for milliseconds)
-    mumble_loop_t * current_loop = calloc(1, sizeof(mumble_loop_t));
-    current_loop->events = calloc(1, sizeof(mumble_list_t));
+    //mumble_loop_t * current_loop = calloc(1, sizeof(mumble_loop_t));
+    //current_loop->events = calloc(1, sizeof(mumble_list_t));
+    mumble_loop_t * current_loop = new_loop(session);
+
     session->current_loop = current_loop;
     add_loop(session, current_loop);
     
