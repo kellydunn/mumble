@@ -69,6 +69,58 @@ mumble_t * mumble_init(mumble_t* mumble) {
   return mumble;
 }
 
+void mumble_intro_blink(mumble_t * mumble) {
+ // Blinky
+  usleep(100000);
+  monome_led_off(mumble->monome, 1, 1);
+  monome_led_off(mumble->monome, 1, 2);
+  monome_led_off(mumble->monome, 2, 1);
+  monome_led_off(mumble->monome, 2, 2);
+
+  monome_led_off(mumble->monome, 1, 6);
+  monome_led_off(mumble->monome, 1, 5);
+  monome_led_off(mumble->monome, 2, 6);
+  monome_led_off(mumble->monome, 2, 5);
+
+  // Blinky
+  usleep(75000);
+  monome_led_on(mumble->monome, 1, 1);
+  monome_led_on(mumble->monome, 1, 2);
+  monome_led_on(mumble->monome, 2, 1);
+  monome_led_on(mumble->monome, 2, 2);
+
+  monome_led_on(mumble->monome, 1, 6);
+  monome_led_on(mumble->monome, 1, 5);
+  monome_led_on(mumble->monome, 2, 6);
+  monome_led_on(mumble->monome, 2, 5);
+}
+
+void mumble_intro_talk(mumble_t * mumble) {
+ // :]
+  monome_led_off(mumble->monome, 5, 1);
+  monome_led_off(mumble->monome, 5, 2);
+  monome_led_off(mumble->monome, 5, 3);
+  monome_led_off(mumble->monome, 5, 4);
+  monome_led_off(mumble->monome, 5, 5);
+  monome_led_off(mumble->monome, 5, 6);
+  monome_led_off(mumble->monome, 6, 2);
+  monome_led_off(mumble->monome, 6, 3);
+  monome_led_off(mumble->monome, 6, 4);
+  monome_led_off(mumble->monome, 6, 5);
+
+  usleep(70000);
+  monome_led_on(mumble->monome, 5, 1);
+  monome_led_on(mumble->monome, 5, 2);
+  monome_led_on(mumble->monome, 5, 3);
+  monome_led_on(mumble->monome, 5, 4);
+  monome_led_on(mumble->monome, 5, 5);
+  monome_led_on(mumble->monome, 5, 6);
+  monome_led_on(mumble->monome, 6, 2);
+  monome_led_on(mumble->monome, 6, 3);
+  monome_led_on(mumble->monome, 6, 4);
+  monome_led_on(mumble->monome, 6, 5);
+}
+
 // :D
 void mumble_intro(mumble_t * mumble) {
   int x, y;
@@ -100,7 +152,7 @@ void mumble_intro(mumble_t * mumble) {
   monome_led_on(mumble->monome, 4, 7);
 
   // :]
-  usleep(100000);
+  usleep(90000);
   monome_led_on(mumble->monome, 5, 1);
   monome_led_on(mumble->monome, 5, 2);
   monome_led_on(mumble->monome, 5, 3);
@@ -109,41 +161,22 @@ void mumble_intro(mumble_t * mumble) {
   monome_led_on(mumble->monome, 5, 6);
 
   // :D
-  usleep(100000);
+  usleep(80000);
   monome_led_on(mumble->monome, 6, 2);
   monome_led_on(mumble->monome, 6, 3);
   monome_led_on(mumble->monome, 6, 4);
   monome_led_on(mumble->monome, 6, 5);
 
-  // Blinky
-  usleep(100000);
-  monome_led_off(mumble->monome, 1, 1);
-  monome_led_off(mumble->monome, 1, 2);
-  monome_led_off(mumble->monome, 2, 1);
-  monome_led_off(mumble->monome, 2, 2);
-
-  monome_led_off(mumble->monome, 1, 6);
-  monome_led_off(mumble->monome, 1, 5);
-  monome_led_off(mumble->monome, 2, 6);
-  monome_led_off(mumble->monome, 2, 5);
-
-  // Blinky
-  usleep(75000);
-  monome_led_on(mumble->monome, 1, 1);
-  monome_led_on(mumble->monome, 1, 2);
-  monome_led_on(mumble->monome, 2, 1);
-  monome_led_on(mumble->monome, 2, 2);
-
-  monome_led_on(mumble->monome, 1, 6);
-  monome_led_on(mumble->monome, 1, 5);
-  monome_led_on(mumble->monome, 2, 6);
-  monome_led_on(mumble->monome, 2, 5);
-
+  mumble_intro_blink(mumble);
+  usleep(120000);
+  mumble_intro_talk(mumble);
+  usleep(120000);
+  mumble_intro_talk(mumble);
   usleep(200000);
 
   // Fade
   int bcount;
-  for(bcount = 16; bcount > 0; bcount --) {
+  for(bcount = 15; bcount > 0; bcount --) {
     usleep(75000);
     monome_led_intensity(mumble->monome, bcount);
   }
