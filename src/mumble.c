@@ -1,3 +1,4 @@
+#include <monome.h>
 #include "mumble.h"
 
 // TODO Read port from serialoscd
@@ -68,6 +69,96 @@ mumble_t * mumble_init(mumble_t* mumble) {
   return mumble;
 }
 
+// :D
+void mumble_intro(mumble_t * mumble) {
+  int x, y;
+
+  for(x = 0; x < 8; x++) {
+    for(y = 0; y < 8; y++) {
+      monome_led_off(mumble->monome, x, y);
+    }
+  }
+
+  // :|
+  monome_led_on(mumble->monome, 1, 1);
+  monome_led_on(mumble->monome, 1, 2);
+  monome_led_on(mumble->monome, 2, 1);
+  monome_led_on(mumble->monome, 2, 2);
+
+  monome_led_on(mumble->monome, 1, 6);
+  monome_led_on(mumble->monome, 1, 5);
+  monome_led_on(mumble->monome, 2, 6);
+  monome_led_on(mumble->monome, 2, 5);
+
+  monome_led_on(mumble->monome, 4, 0);
+  monome_led_on(mumble->monome, 4, 1);
+  monome_led_on(mumble->monome, 4, 2);
+  monome_led_on(mumble->monome, 4, 3);
+  monome_led_on(mumble->monome, 4, 4);
+  monome_led_on(mumble->monome, 4, 5);
+  monome_led_on(mumble->monome, 4, 6);
+  monome_led_on(mumble->monome, 4, 7);
+
+  // :]
+  usleep(100000);
+  monome_led_on(mumble->monome, 5, 1);
+  monome_led_on(mumble->monome, 5, 2);
+  monome_led_on(mumble->monome, 5, 3);
+  monome_led_on(mumble->monome, 5, 4);
+  monome_led_on(mumble->monome, 5, 5);
+  monome_led_on(mumble->monome, 5, 6);
+
+  // :D
+  usleep(100000);
+  monome_led_on(mumble->monome, 6, 2);
+  monome_led_on(mumble->monome, 6, 3);
+  monome_led_on(mumble->monome, 6, 4);
+  monome_led_on(mumble->monome, 6, 5);
+
+  // Blinky
+  usleep(100000);
+  monome_led_off(mumble->monome, 1, 1);
+  monome_led_off(mumble->monome, 1, 2);
+  monome_led_off(mumble->monome, 2, 1);
+  monome_led_off(mumble->monome, 2, 2);
+
+  monome_led_off(mumble->monome, 1, 6);
+  monome_led_off(mumble->monome, 1, 5);
+  monome_led_off(mumble->monome, 2, 6);
+  monome_led_off(mumble->monome, 2, 5);
+
+  // Blinky
+  usleep(75000);
+  monome_led_on(mumble->monome, 1, 1);
+  monome_led_on(mumble->monome, 1, 2);
+  monome_led_on(mumble->monome, 2, 1);
+  monome_led_on(mumble->monome, 2, 2);
+
+  monome_led_on(mumble->monome, 1, 6);
+  monome_led_on(mumble->monome, 1, 5);
+  monome_led_on(mumble->monome, 2, 6);
+  monome_led_on(mumble->monome, 2, 5);
+
+  usleep(200000);
+
+  // Fade
+  int bcount;
+  for(bcount = 16; bcount > 0; bcount --) {
+    usleep(75000);
+    monome_led_intensity(mumble->monome, bcount);
+  }
+
+  // OFF
+  for(x = 0; x < 8; x++) {
+    for(y = 0; y < 8; y++) {
+      monome_led_off(mumble->monome, x, y);
+    }
+  }
+
+  // Back to normal
+  monome_led_intensity(mumble->monome, 0xF);
+}
+
 int main() {
   mumble_t * mumble;
   int err;
@@ -84,6 +175,9 @@ int main() {
   monome_register_handler(mumble->monome, MONOME_BUTTON_DOWN, button_handler, (void *)mumble);
   monome_register_handler(mumble->monome, MONOME_BUTTON_UP, button_handler, (void *)mumble);
   printf("done.\n");
+
+  printf("Mumble online :)\n");
+  mumble_intro(mumble);
 
   monome_event_loop(mumble->monome);
 
