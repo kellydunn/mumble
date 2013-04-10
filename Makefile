@@ -1,6 +1,7 @@
 CC=gcc
 LDFLAGS= -I/usr/local/lib:/usr/lib
 CFLAGS= -lmonome -lpthread
+TEST_CFLAGS= -lmonome -lpthread -lcheck
 TARGET_OBJS=bin/build/mumble/*.o
 
 all:
@@ -12,6 +13,10 @@ all:
 	$(CC) -c src/mumble/loop.c $(LDFLAGS) $(CFLAGS) -o bin/build/mumble/loop.o
 	$(CC) -c src/mumble/session.c $(LDFLAGS) $(CFLAGS) -o bin/build/mumble/session.o
 	$(CC) src/mumble.c $(LDFLAGS) $(CFLAGS) $(TARGET_OBJS) -o bin/mumble
+
+test:
+	mkdir -p bin/test
+	$(CC) tests/mumble/list_test.c $(LDFLAGS) $(TEST_CFLAGS) bin/build/mumble/list.o -o bin/list_test
 
 clean:
 	rm -rf bin/*
