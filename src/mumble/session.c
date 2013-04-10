@@ -24,9 +24,9 @@ void start_recording(mumble_session_t * session) {
     session->current_loop = current_loop;
     add_loop(session, current_loop);
     
-    pthread_t * session_loop_thread = calloc(1, sizeof(pthread_t));
-    pthread_create(session_loop_thread, NULL, session_loop, session);
-    pthread_detach(session_loop_thread);
+    pthread_t * session_recording_loop_thread = calloc(1, sizeof(pthread_t));
+    pthread_create(session_recording_loop_thread, NULL, session_recording_loop, session);
+    pthread_detach(session_recording_loop_thread);
   }
 }
 
@@ -38,7 +38,7 @@ void add_loop(mumble_session_t * session, mumble_loop_t * loop) {
   list_append(session->loops, loop);  
 }
 
-void * session_loop(void * data) {
+void * session_recording_loop(void * data) {
   int now = 0;
   mumble_session_t * session = (mumble_session_t *) data;
   printf("Starting loop! Start: %d. MAX TIME IS %d\n", now, session->max_time);
@@ -55,5 +55,7 @@ void * session_loop(void * data) {
   printf("MAX RECORDING TIME.  EXITING LOOP!\n");
   printf("  You recorded %d events\n", session->current_loop->events->size);
   stop_recording(session);
+
+  // TODO Spin off looping thread automatically
   return NULL;
 }

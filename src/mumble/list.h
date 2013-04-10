@@ -4,6 +4,7 @@
 #include "../types.h"
 
 mumble_list_t * new_list();
+void list_init(mumble_list_t * list);
 
 void list_append(mumble_list_t * list, void * val);
 mumble_list_node_t * list_pop(mumble_list_t * list);

@@ -1,3 +1,5 @@
+#include "stdio.h"
+#include "stdlib.h"
 #include "loop.h"
 
 mumble_loop_t * new_loop(mumble_session_t * session) {

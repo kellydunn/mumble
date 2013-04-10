@@ -1,3 +1,4 @@
+#include "stdlib.h"
 #include "list.h"
 
 mumble_list_t * new_list() {

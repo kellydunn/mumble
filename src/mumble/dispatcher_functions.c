@@ -1,3 +1,5 @@
+#include "stdlib.h"
+#include "stdio.h"
 #include "dispatcher_functions.h"
 
 void play_midi(const monome_event_t *e, void *user_data) {
@@ -5,7 +7,7 @@ void play_midi(const monome_event_t *e, void *user_data) {
   unsigned char * midi_data;
   mumble_t * mumble = (mumble_t *) user_data;
 
-  midi_data = midi_data_from_monome_event(midi_data, e, user_data);
+  midi_data = (unsigned char *) midi_data_from_monome_event(midi_data, e, user_data);
 
   if(e->event_type == MONOME_BUTTON_DOWN) {
     midi_data[0] = MIDI_NOTE_ON;

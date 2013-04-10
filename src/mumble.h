@@ -1,3 +1,6 @@
+#ifndef _MUMBLE_H
+#define _MUMBLE_H
+
 #include <linux/soundcard.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -22,4 +25,4 @@ static void button_handler(const monome_event_t *e, void *user_data);
 mumble_t * mumble_init(mumble_t* mumble);
 unsigned char * midi_data_from_monome_event(unsigned char * midi_data, const monome_event_t *e, void *user_data);
 
-
+#endif
