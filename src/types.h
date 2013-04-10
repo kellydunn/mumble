@@ -66,6 +66,7 @@ struct mumble_session {
 struct mumble_loop {
   struct timespec start, stop;
   int inst;
+  bool looping;
   mumble_list_t * events;
 };
 
@@ -117,6 +118,7 @@ struct mumble_list_node {
 #define MIDI_MICROSECOND_PER_MINUTE .0000000166667
 
 // TODO Research midi device daemon?
-#define MIDI_DEVICE "/dev/snd/midiC1D0"
+//#define MIDI_DEVICE "/dev/snd/midiC1D0"
+#define MIDI_DEVICE "/dev/snd/seq"
 
 #endif
