@@ -69,56 +69,119 @@ mumble_t * mumble_init(mumble_t* mumble) {
   return mumble;
 }
 
+int eyes [8][2] = {
+  {1, 1},
+  {1, 2},
+  {2, 1},
+  {2, 2},
+  {5, 1},
+  {5, 2},
+  {6, 1},
+  {6, 2}
+};
+
+int mouth_row_1 [8][2] = {
+  {0, 4},
+  {1, 4},
+  {2, 4},
+  {3, 4},
+  {4, 4},
+  {5, 4},
+  {6, 4},
+  {7, 4}
+};
+
+int mouth_row_2 [6][2] = {
+  {1, 5},
+  {2, 5},
+  {3, 5},
+  {4, 5},
+  {5, 5},
+  {6, 5},
+};
+
+int mouth_row_3 [4][2] = {
+  {2, 6},
+  {3, 6},
+  {4, 6},
+  {5, 6},
+};
+
+// TODO have some generiec face_part_on / face_part_off method
+void mumble_intro_eyes_off(mumble_t * mumble) {
+  int i;
+  for(i=0; i<8; i++) {
+    monome_led_off(mumble->monome, eyes[i][0], eyes[i][1]);
+  }
+}
+
+void mumble_intro_eyes_on(mumble_t * mumble) {
+  int i;
+  for(i=0; i<8; i++) {
+    monome_led_on(mumble->monome, eyes[i][0], eyes[i][1]);
+  }
+}
+
+void mumble_intro_mouth_row_1_on(mumble_t * mumble) {
+  int i;
+  for(i=0; i<8; i++) {
+    monome_led_on(mumble->monome, mouth_row_1[i][0], mouth_row_1[i][1]);
+  }
+}
+
+void mumble_intro_mouth_row_1_off(mumble_t * mumble) {
+  int i;
+  for(i=0; i<8; i++) {
+    monome_led_off(mumble->monome, mouth_row_1[i][0], mouth_row_1[i][1]);
+  }
+}
+
+void mumble_intro_mouth_row_2_on(mumble_t * mumble) {
+  int i;
+  for(i=0; i<6; i++) {
+    monome_led_on(mumble->monome, mouth_row_2[i][0], mouth_row_2[i][1]);
+  }
+}
+
+void mumble_intro_mouth_row_2_off(mumble_t * mumble) {
+  int i;
+  for(i=0; i<6; i++) {
+    monome_led_off(mumble->monome, mouth_row_2[i][0], mouth_row_2[i][1]);
+  }
+}
+
+void mumble_intro_mouth_row_3_on(mumble_t * mumble) {
+  int i;
+  for(i=0; i<4; i++) {
+    monome_led_on(mumble->monome, mouth_row_3[i][0], mouth_row_3[i][1]);
+  }
+}
+
+void mumble_intro_mouth_row_3_off(mumble_t * mumble) {
+  int i;
+  for(i=0; i<4; i++) {
+    monome_led_off(mumble->monome, mouth_row_3[i][0], mouth_row_3[i][1]);
+  }
+}
+
 void mumble_intro_blink(mumble_t * mumble) {
  // Blinky
   usleep(100000);
-  monome_led_off(mumble->monome, 1, 1);
-  monome_led_off(mumble->monome, 1, 2);
-  monome_led_off(mumble->monome, 2, 1);
-  monome_led_off(mumble->monome, 2, 2);
-
-  monome_led_off(mumble->monome, 1, 6);
-  monome_led_off(mumble->monome, 1, 5);
-  monome_led_off(mumble->monome, 2, 6);
-  monome_led_off(mumble->monome, 2, 5);
+  mumble_intro_eyes_off(mumble);
 
   // Blinky
   usleep(75000);
-  monome_led_on(mumble->monome, 1, 1);
-  monome_led_on(mumble->monome, 1, 2);
-  monome_led_on(mumble->monome, 2, 1);
-  monome_led_on(mumble->monome, 2, 2);
-
-  monome_led_on(mumble->monome, 1, 6);
-  monome_led_on(mumble->monome, 1, 5);
-  monome_led_on(mumble->monome, 2, 6);
-  monome_led_on(mumble->monome, 2, 5);
+  mumble_intro_eyes_on(mumble);
 }
 
 void mumble_intro_talk(mumble_t * mumble) {
  // :]
-  monome_led_off(mumble->monome, 5, 1);
-  monome_led_off(mumble->monome, 5, 2);
-  monome_led_off(mumble->monome, 5, 3);
-  monome_led_off(mumble->monome, 5, 4);
-  monome_led_off(mumble->monome, 5, 5);
-  monome_led_off(mumble->monome, 5, 6);
-  monome_led_off(mumble->monome, 6, 2);
-  monome_led_off(mumble->monome, 6, 3);
-  monome_led_off(mumble->monome, 6, 4);
-  monome_led_off(mumble->monome, 6, 5);
+  mumble_intro_mouth_row_2_off(mumble);
+  mumble_intro_mouth_row_3_off(mumble);
 
   usleep(70000);
-  monome_led_on(mumble->monome, 5, 1);
-  monome_led_on(mumble->monome, 5, 2);
-  monome_led_on(mumble->monome, 5, 3);
-  monome_led_on(mumble->monome, 5, 4);
-  monome_led_on(mumble->monome, 5, 5);
-  monome_led_on(mumble->monome, 5, 6);
-  monome_led_on(mumble->monome, 6, 2);
-  monome_led_on(mumble->monome, 6, 3);
-  monome_led_on(mumble->monome, 6, 4);
-  monome_led_on(mumble->monome, 6, 5);
+  mumble_intro_mouth_row_2_on(mumble);
+  mumble_intro_mouth_row_3_on(mumble);
 }
 
 // :D
@@ -132,40 +195,16 @@ void mumble_intro(mumble_t * mumble) {
   }
 
   // :|
-  monome_led_on(mumble->monome, 1, 1);
-  monome_led_on(mumble->monome, 1, 2);
-  monome_led_on(mumble->monome, 2, 1);
-  monome_led_on(mumble->monome, 2, 2);
-
-  monome_led_on(mumble->monome, 1, 6);
-  monome_led_on(mumble->monome, 1, 5);
-  monome_led_on(mumble->monome, 2, 6);
-  monome_led_on(mumble->monome, 2, 5);
-
-  monome_led_on(mumble->monome, 4, 0);
-  monome_led_on(mumble->monome, 4, 1);
-  monome_led_on(mumble->monome, 4, 2);
-  monome_led_on(mumble->monome, 4, 3);
-  monome_led_on(mumble->monome, 4, 4);
-  monome_led_on(mumble->monome, 4, 5);
-  monome_led_on(mumble->monome, 4, 6);
-  monome_led_on(mumble->monome, 4, 7);
+  mumble_intro_eyes_on(mumble);
+  mumble_intro_mouth_row_1_on(mumble);
 
   // :]
   usleep(90000);
-  monome_led_on(mumble->monome, 5, 1);
-  monome_led_on(mumble->monome, 5, 2);
-  monome_led_on(mumble->monome, 5, 3);
-  monome_led_on(mumble->monome, 5, 4);
-  monome_led_on(mumble->monome, 5, 5);
-  monome_led_on(mumble->monome, 5, 6);
+  mumble_intro_mouth_row_2_on(mumble);
 
   // :D
   usleep(80000);
-  monome_led_on(mumble->monome, 6, 2);
-  monome_led_on(mumble->monome, 6, 3);
-  monome_led_on(mumble->monome, 6, 4);
-  monome_led_on(mumble->monome, 6, 5);
+  mumble_intro_mouth_row_3_on(mumble);
 
   mumble_intro_blink(mumble);
   usleep(120000);
@@ -223,7 +262,7 @@ int main() {
 // Generates a midi message from a monome event.
 unsigned char * midi_data_from_monome_event(unsigned char * midi_data, const monome_event_t * e, void *user_data) {
   int midi_note_message_len = 3;
-  midi_data = (unsigned char *)calloc(midi_note_message_len, sizeof(unsigned char));
+  midi_data = (unsigned char *) calloc(midi_note_message_len, sizeof(unsigned char));
 
   int event_x, event_y, event_type;
   mumble_t *mumble = (mumble_t *) user_data;

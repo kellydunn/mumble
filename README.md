@@ -17,38 +17,44 @@ a derpy little utility that helps monomes talk midi
 
 # why
 
-I want to be able to use my monome with the mutable-instrument's shruti!
+I want to be able to use my monome with the mutable-instrument's shruti, and other MIDI-driveable things
 
 # deps
 
   - libmonome
+  - lphread
+
+# installation
+
+Still investigating the prefered build tools of the C-World, but as of now, I have a custom Makefile that blindly uses the dependencies listed above.  This has only been tested for building in Arch Linux, so tread carefully :3
+
+```
+make
+sudo make install
+```
+This will place mumble in `/usr/bin`, so be sure to include that in your `$PATH`.
+
+# tests
+
+There are a few tests that help mumble stay above water.  You can run them if you like!
+
+```
+make test
+./bin/*_test
+```
 
 # roadmap
 
-  - provide different key mappings
-  - provide the ability to customize the midi muxer
-  - provide a way to customize default midi device
-  - provide more interesting midi controls like the following:
-
-```
-+---+---+---+---+---+---+---+---+
-| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-+---+---+---+---+---+---+---+---+
-
-0: vel down
-1: vel up
-2: key down
-3: key up
-4: ??? (record midi file?)
-5: ??? (record midi file?)
-6: pitch bend down (press enabled; duration for monome or pressure for chronome)
-7: pitch bend up   (press enabled; duration for monome or pressure for chronome)
-
-```
+  - provide different key mappings (like different scales, etc)
+  - provide the ability to customize the midi muxer via a configuration file / potentially python bindings?
+  - provide a way to customize default midi device via a configuration file
+  - provide more interesting midi controls like pitch bending / volume control, etc.
 
 # development
 
-I'm currently using arch linux, so creating midi pipes for the sake of development requires some setup:
+I'm currently using Arch Linux, so creating midi pipes for the sake of development requires some setup. 
+
+Timidity is a great application to help with virtualizing MIDI so that you may allow mumble to talk to DAWs like Rosegarden, Renoise, or even Ableton.
 
 ```
 # A way to virutalize MIDI ports
@@ -56,6 +62,7 @@ timidity -iA
 sudo modprobe snd-virmidi
 
 # Connecting Virtual MIDI ports to other MIDI-consumable services (like Hydrogen)
-aconnect <midi-through-port-address>:0 <timidity-forward-port-address>:0
+# aconnect <midi-through-port-address>:0 <timidity-forward-port-address>:0
+aconnect 14:0 20:0
 <edit mumble configuration to point to /dev/snd/midiC1D0 or something similar>
 ```

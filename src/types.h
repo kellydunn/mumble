@@ -68,8 +68,9 @@ struct mumble_session {
 
 // loop.h [impl]
 struct mumble_loop {
-  struct timespec start, stop;
-  int inst;
+  struct timeval start, stop;
+  int inst; 
+  int duration;
   bool looping;
   mumble_list_t * events;
 
@@ -80,8 +81,8 @@ struct mumble_loop {
 
 // midi.h [impl]
 struct mumble_midi_event {
-  struct timespec timestamp;
-  int delay;      // The delay until the next event
+  struct timeval timestamp;
+  int delay;      // The delay in microseconds until the next event
   monome_event_t * monome_event;
   unsigned char * data;
 };
@@ -127,7 +128,7 @@ struct mumble_list_node {
 #define MIDI_MICROSECOND_PER_MINUTE .0000000166667
 
 // TODO Research midi device daemon?
-//#define MIDI_DEVICE "/dev/snd/midiC1D0"
-#define MIDI_DEVICE "/dev/snd/seq"
+#define MIDI_DEVICE "/dev/snd/midiC1D0"
+//#define MIDI_DEVICE "/dev/snd/seq"
 
 #endif

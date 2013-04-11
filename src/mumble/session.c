@@ -1,15 +1,16 @@
+#include "list.h"
 #include "session.h"
 
 // TODO Implement
 mumble_session_t * mumble_session_init(mumble_t * mumble) {
   mumble_session_t * session = calloc(1, sizeof(mumble_session_t));
   session->recording = false;
-  session->loops = new_list();
+  session->loops = (mumble_list_t *) new_list();
   session->mumble = mumble;
 
   // TODO Make this configurable
   //      Default 8 measures of 120 BPM (in milliseconds, could go to nanoseconds for precision)
-  session->max_time = (((120/60) * 2) * 10000);
+  session->max_time = (((120/60) * 2) * 1000000);
   return session;
 }
 
@@ -44,8 +45,8 @@ void * session_recording_loop(void * data) {
   mumble_session_t * session = (mumble_session_t *) data;
   printf("Starting loop! Start: %d. MAX TIME IS %d\n", now, session->max_time);
   while(now < session->max_time) {
-    usleep(1);
-    now += 1;
+    usleep(100);
+    now += 100;
     
     // bail if user kills recording sesion early
     if(session->recording != true) {
@@ -55,6 +56,15 @@ void * session_recording_loop(void * data) {
 
   printf("MAX RECORDING TIME.  EXITING LOOP!\n");
   printf("  You recorded %d events\n", session->current_loop->events->size);
+
+  mumble_midi_event_t * last_event = (mumble_midi_event_t *) session->current_loop->events->tail->data;
+  
+  if(last_event->delay == 0) {
+    printf("Session max time: %d\n", session->max_time);
+    printf("Session loop duration: %d\n", session->current_loop->duration);
+    printf("Setting delay of last event: %d\n", (session->max_time - session->current_loop->duration));
+    last_event->delay = session->max_time - session->current_loop->duration;
+  }
 
   // DEBUG EVENTS PLZ
   mumble_list_node_t * debug = calloc(1, sizeof(mumble_list_node_t));
