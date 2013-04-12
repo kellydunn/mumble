@@ -32,12 +32,16 @@ typedef struct mumble_midi_chunk mumble_midi_chunk_t;
 typedef struct mumble_list mumble_list_t;
 typedef struct mumble_list_node mumble_list_node_t;
 
+// config.h
+typedef struct mumble_config mumble_config_t;
+
 // mumble.h [impl]
 struct mumble {
   int midi_fd;
   monome_t * monome;
   mumble_muxer_t * muxer;
   mumble_session_t * session;
+  mumble_config_t * conf;
   int root;
   int velocity;
   float bpm;
@@ -112,6 +116,12 @@ struct mumble_list_node {
   void * data;    // The MIDI Event
   mumble_list_node_t * next;
   mumble_list_node_t * prev;
+};
+
+// config.h [impl]
+struct mumble_config {
+  char * monome_path;
+  char * midi_device;
 };
 
 // MIDI Protocol
