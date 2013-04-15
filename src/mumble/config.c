@@ -21,14 +21,13 @@ mumble_config_t * new_config(char * filename) {
   bool record_next;
   char * record_attr;
 
+  // TODO this is terrible; there should be something that already handles this
   for (node = document->nodes.start; node < document->nodes.top; node ++) {
     switch (node->type) {
     case YAML_SCALAR_NODE:
       if(!record_next && node->data.scalar.value == "monome_path" || node->data.scalar.value == "midi_device") {
         record_next = true;
         record_attr = node->data.scalar.value;
-
-        // TODO Make less sucky
       } else if (record_next) {
         if(record_attr == "monome_path") {
           config->monome_path = node->data.scalar.value;

@@ -28,7 +28,7 @@ void start_recording(mumble_session_t * session) {
     
     pthread_t * session_recording_loop_thread = calloc(1, sizeof(pthread_t));
     pthread_create(session_recording_loop_thread, NULL, session_recording_loop, session);
-    pthread_detach(session_recording_loop_thread);
+    pthread_detach(*session_recording_loop_thread);
   }
 }
 
@@ -85,7 +85,7 @@ void * session_recording_loop(void * data) {
   session->current_loop->looping = true;
   pthread_t * loop_playback_thread = calloc(1, sizeof(pthread_t));
   pthread_create(loop_playback_thread, NULL, loop_playback, session->current_loop);
-  pthread_detach(loop_playback_thread);
+  pthread_detach(*loop_playback_thread);
   
   return NULL;
 }

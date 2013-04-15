@@ -45,7 +45,7 @@ mumble_t * mumble_init(mumble_t* mumble) {
 
   mumble_muxer_t * muxer = (mumble_muxer_t *) mumble_muxer_init();
   mumble_session_t * session = (mumble_session_t *) mumble_session_init(mumble);
-  mumble_config_t * config = (mumble_config_t *) new_config("/home/kelly/.mumble/config.yml");
+  //mumble_config_t * config = (mumble_config_t *) new_config("/home/kelly/.mumble/config.yml");
 
   // TODO handle more gracefully
   printf("Opening midi device...");
@@ -234,22 +234,12 @@ void mumble_intro(mumble_t * mumble) {
 
 int main() {
   mumble_t * mumble;
-  int err;
 
-  printf("Creating session...\n");
   mumble = mumble_init(mumble);
-  printf("Finished creating session.\n");
 
-  if(mumble->monome == NULL) {
-    printf("no way");
-  }
-
-  printf("Registering handlers...");
   monome_register_handler(mumble->monome, MONOME_BUTTON_DOWN, button_handler, (void *)mumble);
   monome_register_handler(mumble->monome, MONOME_BUTTON_UP, button_handler, (void *)mumble);
-  printf("done.\n");
 
-  printf("Mumble online :)\n");
   mumble_intro(mumble);
 
   monome_event_loop(mumble->monome);
@@ -261,6 +251,8 @@ int main() {
 }
 
 // Generates a midi message from a monome event.
+// TODO Debug, apparently this stuff generates segfaults when being ran in the loop playback thread. 
+//      Maybe mumble_midi_event_t structs can hold this data inside of them, and be read later.
 unsigned char * midi_data_from_monome_event(unsigned char * midi_data, const monome_event_t * e, void *user_data) {
   int midi_note_message_len = 3;
   midi_data = (unsigned char *) calloc(midi_note_message_len, sizeof(unsigned char));
