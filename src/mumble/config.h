@@ -3,4 +3,10 @@
 
 #include "../types.h"
 
+mumble_config_t * new_config(char * filename);
+mumble_config_node_t * new_config_node();
+void config_node_append_data(mumble_config_node_t * node, char * data);
+bool is_complete(mumble_config_node_t * node);
+char * get_config_data(mumble_list_t * list, char * match);
+
 #endif

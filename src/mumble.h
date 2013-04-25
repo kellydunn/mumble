@@ -11,6 +11,7 @@
 #include "types.h"
 #include "mumble/muxer.h"
 #include "mumble/session.h"
+#include "mumble/config.h"
 
 // ROADMAP Somehow account for custom scales
 #define LOW_C 36

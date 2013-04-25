@@ -3,6 +3,7 @@
 
 // TODO Read port from serialoscd
 #define MONOME_DEVICE "osc.udp://127.0.0.1:19043/monome"
+//#define MONOME_DEVICE "osc.udp://127.0.0.1:10383/monome"
 
 static void button_handler(const monome_event_t *e, void *user_data) { 
   printf("Handler called:");
@@ -41,17 +42,22 @@ mumble_t * mumble_init(mumble_t* mumble) {
   monome_t *monome;
 
   mumble = calloc(1, sizeof(mumble_t));
-  monome = monome_open(MONOME_DEVICE, "8000");
+
+  char * home = getenv("HOME");
+  char file_path_buf[256];  //sprintf you so nasty
+  sprintf(file_path_buf, "%s/.mumble/config.yml", home);
 
   mumble_muxer_t * muxer = (mumble_muxer_t *) mumble_muxer_init();
   mumble_session_t * session = (mumble_session_t *) mumble_session_init(mumble);
-  //mumble_config_t * config = (mumble_config_t *) new_config("/home/kelly/.mumble/config.yml");
+  mumble_config_t * config = (mumble_config_t *) new_config(file_path_buf);
+  
+  monome = monome_open(config->monome_path, "8000");
 
   // TODO handle more gracefully
   printf("Opening midi device...");
-  mumble->midi_fd = open(MIDI_DEVICE, O_WRONLY, 0);
+  mumble->midi_fd = open(config->midi_device, O_WRONLY, 0);
   if (mumble->midi_fd < 0) {
-    printf("Error:  Could not open %s\n", MIDI_DEVICE);
+    printf("Error:  Could not open %s\n", config->midi_device);
     return NULL;
   }
   printf("done.\n");

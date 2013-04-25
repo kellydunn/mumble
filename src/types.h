@@ -34,6 +34,7 @@ typedef struct mumble_list_node mumble_list_node_t;
 
 // config.h
 typedef struct mumble_config mumble_config_t;
+typedef struct mumble_config_node mumble_config_node_t;
 
 // mumble.h [impl]
 struct mumble {
@@ -122,6 +123,11 @@ struct mumble_list_node {
 struct mumble_config {
   char * monome_path;
   char * midi_device;
+};
+
+struct mumble_config_node {
+  char * key;
+  char * value;
 };
 
 // MIDI Protocol
