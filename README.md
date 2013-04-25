@@ -7,7 +7,7 @@
 \ \_\ \_\ \_\ \____/\ \_\ \_\ \_\ \_,__/ /\____\ \____\
  \/_/\/_/\/_/\/___/  \/_/\/_/\/_/\/___/  \/____/\/____/
                                                        
-oscmidimumblbmmfbbt~-..
+monome + midi
                                                   
 ```
 
@@ -33,6 +33,16 @@ make
 sudo make install
 ```
 This will place mumble in `/usr/bin`, so be sure to include that in your `$PATH`.
+
+# usage
+
+You can configure mumble to use the monomes and midi devices you so desire:
+
+```
+# in ~/.mumble/config.yml
+monome_path: "osc.udp://127.0.0.1:12345/monome"
+midi_device: "/dev/snd/midiC1D1"
+```
 
 # tests
 
