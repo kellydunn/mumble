@@ -1,10 +1,6 @@
 #include <monome.h>
 #include "mumble.h"
 
-// TODO Read port from serialoscd
-#define MONOME_DEVICE "osc.udp://127.0.0.1:19043/monome"
-//#define MONOME_DEVICE "osc.udp://127.0.0.1:10383/monome"
-
 static void button_handler(const monome_event_t *e, void *user_data) { 
   printf("Handler called:");
   mumble_t *mumble = (mumble_t*) user_data;
@@ -17,15 +13,8 @@ static void button_handler(const monome_event_t *e, void *user_data) {
   event_y = e->grid.y;
   event_type = e->event_type;
 
-  //int rows = monome_get_rows(e->monome);
-  //int cols = monome_get_cols(e->monome);
-
-  int rows = 8;
-  int cols = 8;
-
-  printf("Dispatching event: [%d, %d] to callback: %d\n", event_x, event_y, ((event_y * rows) + (event_x)));  
-  //mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[((event_y) * rows-1) + event_x]);
-  mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[(event_y * rows) + event_x]);
+  printf("Dispatching event: [%d, %d] to callback: %d\n", event_x, event_y, ((event_y * MONOME_ROWS) + (event_x)));  
+  mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[(event_y * MONOME_ROWS) + event_x]);
 
   if(dispatcher == NULL) {
     printf("  Error finding associated callback.\n");
