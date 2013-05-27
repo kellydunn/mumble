@@ -98,7 +98,7 @@ void record_midi(const monome_event_t *e, void *user_data) {
     
     // TODO We need a more elgant way to reset the state of the monome once we cancel.
     //      Child looping thread.   Lets refactor this into a seperate method in the future.
-    monome->session->current_loop->looping = false;
+    mumble->session->current_loop->looping = false;
     monome_led_off(e->monome, e->grid.x, e->grid.y);
   }
 }
