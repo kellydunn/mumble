@@ -143,8 +143,10 @@ struct mumble_config_node {
 #define MIDI_NUM_TRACKS 1    // TODO Determine if other types of midi tracks should be configurable
 #define MIDI_MICROSECOND_PER_MINUTE .0000000166667
 
-// TODO Research midi device daemon?
-#define MIDI_DEVICE "/dev/snd/midiC1D0"
-//#define MIDI_DEVICE "/dev/snd/seq"
+// TODO This is a temporary fix, as the libmonome api
+//      Appears to not give us this information
+//      We should dynamically determine size of monome
+#define MONOME_ROWS 8
+#define MONOME_COLS 8
 
 #endif
