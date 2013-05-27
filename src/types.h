@@ -78,6 +78,7 @@ struct mumble_loop {
   int duration;
   bool looping;
   mumble_list_t * events;
+  pthread_t * thread;
 
   // Seems like this is bloated design; but makes for easier loop_playback *shrug* 
   // Maybe revisit later

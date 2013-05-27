@@ -1,3 +1,5 @@
+#include <signal.h>
+
 #include "stdlib.h"
 #include "stdio.h"
 #include "dispatcher_functions.h"
@@ -83,9 +85,20 @@ void record_midi(const monome_event_t *e, void *user_data) {
 
   // TODO Somehow refactor with code in #play_midi
 
-  if(e->event_type == MONOME_BUTTON_DOWN) {
+  if(e->event_type == MONOME_BUTTON_DOWN && (mumble->session->current_loop == NULL || !mumble->session->current_loop->looping)) {
     printf("RECORD EVENT [%d,%d]\n", e->grid.x, e->grid.y);
     start_recording(mumble->session);
     monome_led_on(e->monome, e->grid.x, e->grid.y);
+  } else if (e->event_type == MONOME_BUTTON_DOWN && mumble->session->current_loop != NULL && mumble->session->current_loop->looping) {
+    printf("Requesting to delete loop at [%d, %d]\n", e->grid.x, e->grid.y);
+    // TODO We should be grabbing the requested loop, not just the current one
+    //      This is a temporary implementation until we can request a specific loop 
+    //      At an index in our list.
+    pthread_cancel(*mumble->session->current_loop->thread);
+    
+    // TODO We need a more elgant way to reset the state of the monome once we cancel.
+    //      Child looping thread.   Lets refactor this into a seperate method in the future.
+    monome->session->current_loop->looping = false;
+    monome_led_off(e->monome, e->grid.x, e->grid.y);
   }
 }

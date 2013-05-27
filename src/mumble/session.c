@@ -84,6 +84,8 @@ void * session_recording_loop(void * data) {
   // TODO Setup a semaphore
   session->current_loop->looping = true;
   pthread_t * loop_playback_thread = calloc(1, sizeof(pthread_t));
+
+  session->current_loop->thread = loop_playback_thread;
   pthread_create(loop_playback_thread, NULL, loop_playback, session->current_loop);
   pthread_detach(*loop_playback_thread);
   
