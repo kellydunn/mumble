@@ -33,11 +33,10 @@ mumble_muxer_t * mumble_muxer_init() {
 
   int x, y;
   printf("Attaching callbacks...");
-  for(x = 0; x < monome_rows; x++) {
-    for(y = 0; y < monome_cols; y++) {
-      //printf("  initializing: [%d, %d]\n",x, y);
+  for(y = 0; y < monome_rows; y++) {
+    for(x = 0; x < monome_cols; x++) {
       if(y == 0) {
-        handle_func(muxer, ((y*8) + x), record_midi);
+        handle_func(muxer, x, record_midi);
       } else {
         handle_func(muxer, ((y*8) + x), play_midi);
       }

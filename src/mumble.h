@@ -14,7 +14,7 @@
 #include "mumble/config.h"
 
 // ROADMAP Somehow account for custom scales
-#define LOW_C 36
+#define LOW_C 24
 
 // TODO Handle note velocity more elegantly
 #define VELOCITY 127 

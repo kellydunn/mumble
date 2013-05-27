@@ -24,7 +24,8 @@ static void button_handler(const monome_event_t *e, void *user_data) {
   int cols = 8;
 
   printf("Dispatching event: [%d, %d] to callback: %d\n", event_x, event_y, ((event_y * rows) + (event_x)));  
-  mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[((event_y) * rows-1) + event_x]);
+  //mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[((event_y) * rows-1) + event_x]);
+  mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[(event_y * rows) + event_x]);
 
   if(dispatcher == NULL) {
     printf("  Error finding associated callback.\n");
@@ -270,7 +271,8 @@ unsigned char * midi_data_from_monome_event(unsigned char * midi_data, const mon
   event_y = e->grid.y;
   event_type = e->event_type;  
 
-  int midi_note = ((mumble->root * (event_y + 1)) + event_x);  
+  int midi_note = (mumble->root + ((event_y * 8) + event_x));  
+  printf("MIDI NOTE: %d", midi_note);
   midi_data[1] = midi_note;
   midi_data[2] = mumble->velocity;  
 
