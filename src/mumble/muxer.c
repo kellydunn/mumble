@@ -1,28 +1,21 @@
 #include "muxer.h"
 #include "dispatcher_functions.h"
 
+// TODO Dynamically determine size of monome
+#define MONOME_ROWS 8
+#define MONOME_COLS 8
+
 // TODO Scope out a bit more.  
 //      Seems weird that I need to know about the session in order to create the muxer
 mumble_muxer_t * mumble_muxer_init() {
   printf("Initializing muxer... ");
-
-  // TODO Refactor into new_mumble_muxer() or some-such
-  /* TODO monome_get_rows and monome_get_cols return 0 ?!
-  int monome_rows = monome_get_rows(monome);
-  int monome_cols = monome_get_cols(monome);
-  printf("\n  monome rows detected: %d\n", monome_rows);
-  printf("\n  monome cols detected: %d\n", monome_cols);
-  */
-  int monome_rows = 8;
-  int monome_cols = 8;
-
   mumble_muxer_t * muxer = calloc(1, sizeof(mumble_muxer_t));
 
   if(muxer == NULL) {
     printf("  Error initializing muxer.");
   }
 
-  muxer->dispatchers = malloc((sizeof(mumble_dispatcher_t) * monome_rows * monome_cols));
+  muxer->dispatchers = malloc((sizeof(mumble_dispatcher_t) * MONOME_ROWS * MONOME_COLS));
   printf("done.\n");
 
   // TODO Refactor into mumble_mux_t and introduce
@@ -33,15 +26,15 @@ mumble_muxer_t * mumble_muxer_init() {
 
   int x, y;
   printf("Attaching callbacks...");
-  for(y = 0; y < monome_rows; y++) {
-    for(x = 0; x < monome_cols; x++) {
+  for(y = 0; y < MONOME_ROWS; y++) {
+    for(x = 0; x < MONOME_COLS; x++) {
       if(y == 0) {
         handle_func(muxer, x, record_midi);
       } else {
-        handle_func(muxer, ((y*8) + x), play_midi);
+        handle_func(muxer, ((y * MONOME_ROWS) + x), play_midi);
       }
 
-      if(&(muxer->dispatchers[(y * 8) + x]) == NULL) {
+      if(&(muxer->dispatchers[(y * MONOME_ROWS) + x]) == NULL) {
         printf("  Couldn't attach callback\n");
       }
     }
