@@ -15,11 +15,15 @@ monome + midi
 
 A monome app that enables your monome to send midi messages to midi-enabled devices.
 
+# features
+
+This monome app currently:
+
+  - Allows you to play midi notes starting at "low C", or the midi note 24, with a range of 56 notes, ending a midi note 80.
+  - Allows you to record a bank of 8 other loops, and deactivate them at any time.  (this will probably be configurable in the future).
+  - Allows you to specify monomes and midi devices that should should be targted in a configuration file.
+
 I've also had some success using my chronome to control midi devices!  If it uses `libmonome`, this app might work with it! :D
-
-# why
-
-I want to be able to use my monome with the mutable-instrument's shruti, and other MIDI-driveable things
 
 # deps
 
@@ -37,14 +41,6 @@ make
 sudo make install
 ```
 This will place mumble in `/usr/bin`, so be sure to include that in your `$PATH`.  In the future, I hope to add a `--prefix` option so that users may be able to configure their build path.
-
-# features
-
-This monome app currently:
-
-  - Allows you to play midi notes starting at "low C", or the midi note 24, with a range of 56 notes, ending a midi note 80.
-  - Allows you to record a bank of 8 other loops, and deactivate them at any time.  (this will probably be configurable in the future).
-  - Allows you to specify monomes and midi devices that should should be targted in a configuration file.
 
 # usage
 
