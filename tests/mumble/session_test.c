@@ -6,11 +6,19 @@
 // Ensure a new session can be made with the expected state
 // ✔ Session should be false
 // ✔ Recording should be false
+// ✔ Loops should not be NULL
+// ✔ Loops should be empty
+// ✔ Associated mumble instance should not be NULL
+// ✔ Max time for recording should not be 0 (? Candidate for removal / refactoring)
 START_TEST (test_new_session) {
   mumble_session_t * session = new_session();
 
   fail_if(session == NULL, "Session is null");
   fail_if(session->recording == true, "Incorrect session state: it should not be recording upon initialization.");
+  fail_if(session->loops == NULL, "Loops are null.");
+  fail_if(!is_empty(session->loops), "Loops are not empty");
+  fail_if(session->mumble == NULL, "Associated mumble instance is null.");
+  fail_if(!(session->max_time > 0), "Associated max_time is not an acceptable value.");
 } END_TEST
 
 Suite * new_session_suite() {
