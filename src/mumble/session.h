@@ -13,7 +13,7 @@
 #include "loop.h"
 #include "midi.h"
 
-mumble_session_t * mumble_session_init();
+mumble_session_t * new_session();
 
 void start_recording(mumble_session_t * session);
 void stop_recording(mumble_session_t * session);

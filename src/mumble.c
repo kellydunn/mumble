@@ -38,7 +38,7 @@ mumble_t * mumble_init(mumble_t* mumble) {
   sprintf(file_path_buf, "%s/.mumble/config.yml", home);
 
   mumble_muxer_t * muxer = (mumble_muxer_t *) new_muxer();
-  mumble_session_t * session = (mumble_session_t *) mumble_session_init(mumble);
+  mumble_session_t * session = (mumble_session_t *) new_session(mumble);
   mumble_config_t * config = (mumble_config_t *) new_config(file_path_buf);
   
   monome = monome_open(config->monome_path, "8000");

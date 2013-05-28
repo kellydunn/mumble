@@ -1,8 +1,7 @@
 #include "list.h"
 #include "session.h"
 
-// TODO Implement
-mumble_session_t * mumble_session_init(mumble_t * mumble) {
+mumble_session_t * new_session(mumble_t * mumble) {
   mumble_session_t * session = calloc(1, sizeof(mumble_session_t));
   session->recording = false;
   session->loops = (mumble_list_t *) new_list();
