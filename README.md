@@ -20,7 +20,7 @@ A monome app that enables your monome to send midi messages to midi-enabled devi
 This monome app currently:
 
   - Allows you to play midi notes starting at "low C", or the midi note 24, with a range of 56 notes, ending a midi note 80.
-  - Allows you to record a bank of 8 other loops, and deactivate them at any time.  (this will probably be configurable in the future).
+  - Allows you to record a bank of 8 loops, and deactivate them at any time.  (this will probably be configurable in the future).
   - Allows you to specify monomes and midi devices that should should be targted in a configuration file.
 
 I've also had some success using my chronome to control midi devices!  If it uses `libmonome`, this app might work with it! :D
@@ -65,6 +65,7 @@ make test
   - provide different key mappings (like different scales, etc)
   - provide the ability to customize the midi muxer via a configuration file / potentially python bindings?
   - provide more interesting midi controls like pitch bending / volume control, etc.
+  - configure, or tap-to-set the BPM.
 
 # development
 
