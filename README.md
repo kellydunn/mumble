@@ -13,7 +13,9 @@ monome + midi
 
 # what 
 
-a derpy little utility that helps monomes talk midi
+A monome app that enables your monome to send midi messages to midi-enabled devices.
+
+I've also had some success using my chronome to control midi devices!  If it uses `libmonome`, this app might work with it! :D
 
 # why
 
@@ -23,6 +25,8 @@ I want to be able to use my monome with the mutable-instrument's shruti, and oth
 
   - libmonome
   - lphread
+  - lyaml
+  - lcheck (for testing)
 
 # installation
 
@@ -32,11 +36,11 @@ Still investigating the prefered build tools of the C-World, but as of now, I ha
 make
 sudo make install
 ```
-This will place mumble in `/usr/bin`, so be sure to include that in your `$PATH`.
+This will place mumble in `/usr/bin`, so be sure to include that in your `$PATH`.  In the future, I hope to add a `--prefix` option so that users may be able to configure their build path.
 
 # usage
 
-You can configure mumble to use the monomes and midi devices you so desire:
+You can configure mumble to use the monomes and midi devices you so desire by creating a `~/.mumble/config.yml` file:
 
 ```
 # in ~/.mumble/config.yml
@@ -46,30 +50,26 @@ midi_device: "/dev/snd/midiC1D1"
 
 # tests
 
-There are a few tests that help mumble stay above water.  You can run them if you like!
+Mumble currently uses the super rad `check` library to keep itself afloat.  Test coverage is still a bit shaky, but if you would like to run the tests, feel free to do so with the following command:
 
 ```
 make test
-./bin/*_test
 ```
 
 # roadmap
 
   - provide different key mappings (like different scales, etc)
   - provide the ability to customize the midi muxer via a configuration file / potentially python bindings?
-  - provide a way to customize default midi device via a configuration file
   - provide more interesting midi controls like pitch bending / volume control, etc.
 
 # development
 
-I'm currently using Arch Linux, so creating midi pipes for the sake of development requires some setup. 
-
-Timidity is a great application to help with virtualizing MIDI so that you may allow mumble to talk to DAWs like Rosegarden, Renoise, or even Ableton.
+Nothing beats testing on a real midi device, but if you're in a pinch, you can virutualize your midi setup by following the steps below.  There are other ways to achieve this, but I've found that a combination of `timidity` and `aconnect` work pretty well!
 
 ```
 # A way to virutalize MIDI ports
-timidity -iA  
-sudo modprobe snd-virmidi
+timidity -iA &
+sudo modprobe snd-virmidi # you may need to reload this kernel module if you're on Arch Linux.
 
 # Connecting Virtual MIDI ports to other MIDI-consumable services (like Hydrogen)
 # aconnect <midi-through-port-address>:0 <timidity-forward-port-address>:0
