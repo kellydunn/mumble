@@ -38,6 +38,14 @@ sudo make install
 ```
 This will place mumble in `/usr/bin`, so be sure to include that in your `$PATH`.  In the future, I hope to add a `--prefix` option so that users may be able to configure their build path.
 
+# features
+
+This monome app currently:
+
+  - Allows you to play midi notes starting at "low C", or the midi note 24, with a range of 56 notes, ending a midi note 80.
+  - Allows you to record a bank of 8 other loops, and deactivate them at any time.  (this will probably be configurable in the future).
+  - Allows you to specify monomes and midi devices that should should be targted in a configuration file.
+
 # usage
 
 You can configure mumble to use the monomes and midi devices you so desire by creating a `~/.mumble/config.yml` file:
