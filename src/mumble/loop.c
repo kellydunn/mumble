@@ -41,6 +41,7 @@ void * loop_playback(void * args) {
     if(!loop->looping) {
       break;
     }
+
   }
 
   return NULL;

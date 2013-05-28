@@ -25,12 +25,31 @@ START_TEST (test_new_loop) {
 
 } END_TEST
 
+
+// Ensure a loop can correctly add a midi event.
+// ✔ Loop events should not be empty
+START_TEST (test_add_event) {
+  // TODO This test should also ensure that the event we add is the correct event.
+  mumble_session_t * session = new_session();
+  mumble_loop_t * loop = new_loop(session);
+
+  // TODO dang, I don't have a new_* for this struct :(  #fail
+  //      Lets revisit this later.
+  mumble_midi_event_t * event = calloc(1, sizeof(mumble_midi_event_t));
+
+  add_midi_event(loop, event);
+
+  fail_if(is_empty(loop->events), "Loop is incorrectly empty");
+
+} END_TEST
+
 Suite * new_loop_suite() {
   Suite * s = suite_create("loop");
 
   TCase * tc_core = tcase_create("Core");
 
   tcase_add_test(tc_core, test_new_loop);
+  tcase_add_test(tc_core, test_add_event);
 
   suite_add_tcase(s, tc_core);
 
