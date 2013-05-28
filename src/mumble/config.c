@@ -2,6 +2,7 @@
 #include <string.h>
 #include <yaml.h>
 #include "list.h"
+#include "config_node.h"
 #include "config.h"
 
 // @param {char*} filename.  An absolute path to the configuration file for the mumble utility.
@@ -34,7 +35,7 @@ mumble_list_t * config_from_file(char * filename) {
   mumble_config_node_t * node = new_config_node();
 
   do {
-    if(is_complete(node)) {
+    if(config_node_is_complete(node)) {
       list_append(config_elements, node);
       node = new_config_node();
     }
@@ -57,30 +58,6 @@ mumble_list_t * config_from_file(char * filename) {
   yaml_token_delete(&token);
 
   return config_elements;
-}
-
-// @return {mumble_config_node_t*} node.  A new configuration node populated with key and value data.
-mumble_config_node_t * new_config_node() {
-  mumble_config_node_t * node = (mumble_config_node_t *) calloc(1, sizeof(mumble_config_node_t));
-  node->key = NULL;
-  node->value = NULL;
-}
-
-// @param {mumble_config_node_t*} node. The configuration node in which to add data.
-// @param {char*} data. The data value in which to append to the node.  
-//                      If no key in the node exists, then the passed in data shall be attached as the key.
-//                      If a key in the node exists, then the passed in data shall be attached as the value.
-void config_node_append_data(mumble_config_node_t * node, char * data) {
-  if(node->key == NULL) {
-    node->key = data;
-  } else {
-    node->value = data;
-  }
-}
-
-// @param {bool}.  Whether or not the current configuration node has both a key and a value.
-bool is_complete(mumble_config_node_t * node) {
-  return (node->key != NULL && node->value != NULL);
 }
 
 // TODO this is kinda nasty; wish I didn't have to iterate over a list of nodes dumbly.
