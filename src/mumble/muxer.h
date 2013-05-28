@@ -6,7 +6,7 @@
 #include <monome.h>
 #include "../types.h"
 
-mumble_muxer_t * mumble_muxer_init();
+mumble_muxer_t * new_muxer();
 
 void handle_func(mumble_muxer_t * muxer, int monome_position, dispatch_func func);
 

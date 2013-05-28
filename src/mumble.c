@@ -37,7 +37,7 @@ mumble_t * mumble_init(mumble_t* mumble) {
   char file_path_buf[256];  //sprintf you so nasty
   sprintf(file_path_buf, "%s/.mumble/config.yml", home);
 
-  mumble_muxer_t * muxer = (mumble_muxer_t *) mumble_muxer_init();
+  mumble_muxer_t * muxer = (mumble_muxer_t *) new_muxer();
   mumble_session_t * session = (mumble_session_t *) mumble_session_init(mumble);
   mumble_config_t * config = (mumble_config_t *) new_config(file_path_buf);
   

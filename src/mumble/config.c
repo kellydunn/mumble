@@ -5,16 +5,26 @@
 #include "config.h"
 
 mumble_config_t * new_config(char * filename) {
+  mumble_config_t * config = (mumble_config_t *) calloc(1, sizeof(mumble_config_t));
+
+  mumble_list_t * config_elements = configuration_from_file(filename);
+
+  config->monome_path = get_config_data(config_elements, "monome_path");
+  config->midi_device = get_config_data(config_elements, "midi_device");
+
+  return config;
+}
+
+mumble_list_t * configuration_from_file(char * filename) {
   yaml_parser_t parser;
   yaml_token_t token;
   yaml_document_t * document;
-  mumble_config_t * config = (mumble_config_t *) calloc(1, sizeof(mumble_config_t));
 
   mumble_list_t * config_elements = (mumble_list_t *) new_list();
-  bool capture = false;
-  
-  yaml_parser_initialize(&parser);
+
   FILE * file = fopen(filename, "rb");
+
+  yaml_parser_initialize(&parser);
   yaml_parser_set_input_file(&parser, file);
   
   mumble_config_node_t * node = new_config_node();
@@ -27,8 +37,8 @@ mumble_config_t * new_config(char * filename) {
 
     yaml_parser_scan(&parser, &token);
     switch(token.type) {
+
     case YAML_SCALAR_TOKEN:
-      // if(strdup((const char *) token.data.scalar.value) != NULL) {
       if(token.data.scalar.value != NULL) {
         config_node_append_data(node, strdup((const char *)token.data.scalar.value));
       }
@@ -42,10 +52,7 @@ mumble_config_t * new_config(char * filename) {
 
   yaml_token_delete(&token);
 
-  config->monome_path = get_config_data(config_elements, "monome_path");
-  config->midi_device = get_config_data(config_elements, "midi_device");
-
-  return config;
+  return config_elements;
 }
 
 mumble_config_node_t * new_config_node() {
