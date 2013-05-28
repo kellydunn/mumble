@@ -56,7 +56,6 @@ void play_midi(const monome_event_t *e, void *user_data) {
       struct timeval diff;
       diff =  timeval_subtract(last_event->timestamp, now);
       last_event->delay = diff.tv_usec;
-      printf("Delay of %d detected\n",last_event->delay);
 
       // Add to total duration of the loop so we may account for it 
       // When closing the event chain.
@@ -87,11 +86,10 @@ void record_midi(const monome_event_t *e, void *user_data) {
   // TODO Somehow refactor with code in #play_midi
 
   if(e->event_type == MONOME_BUTTON_DOWN && (mumble->session->current_loop == NULL || !mumble->session->current_loop->looping)) {
-    printf("RECORD EVENT [%d,%d]\n", e->grid.x, e->grid.y);
     start_recording(mumble->session);
     monome_led_on(e->monome, e->grid.x, e->grid.y);
+
   } else if (e->event_type == MONOME_BUTTON_DOWN && mumble->session->current_loop != NULL && mumble->session->current_loop->looping) {
-    printf("Requesting to delete loop at [%d, %d]\n", e->grid.x, e->grid.y);
     // TODO We should be grabbing the requested loop, not just the current one
     //      This is a temporary implementation until we can request a specific loop 
     //      At an index in our list.

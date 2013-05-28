@@ -43,7 +43,7 @@ void add_loop(mumble_session_t * session, mumble_loop_t * loop) {
 void * session_recording_loop(void * data) {
   int now = 0;
   mumble_session_t * session = (mumble_session_t *) data;
-  printf("Starting loop! Start: %d. MAX TIME IS %d\n", now, session->max_time);
+
   while(now < session->max_time) {
     usleep(100);
     now += 100;
@@ -54,34 +54,13 @@ void * session_recording_loop(void * data) {
     }
   }
 
-  printf("MAX RECORDING TIME.  EXITING LOOP!\n");
-  printf("  You recorded %d events\n", session->current_loop->events->size);
-
   mumble_midi_event_t * last_event = (mumble_midi_event_t *) session->current_loop->events->tail->data;
   
   if(last_event->delay == 0) {
-    printf("Session max time: %d\n", session->max_time);
-    printf("Session loop duration: %d\n", session->current_loop->duration);
-    printf("Setting delay of last event: %d\n", (session->max_time - session->current_loop->duration));
     last_event->delay = session->max_time - session->current_loop->duration;
   }
 
-  // DEBUG EVENTS PLZ
-  mumble_list_node_t * debug = calloc(1, sizeof(mumble_list_node_t));
-  debug = session->current_loop->events->head;
-  mumble_midi_event_t * ddata = (mumble_midi_event_t *) debug->data;
-  printf("[%d, %d, %d] =>", ddata->monome_event->event_type, ddata->monome_event->grid.x, ddata->monome_event->grid.y);
-
-  while((debug = debug->next) != session->current_loop->events->head) {
-    ddata = (mumble_midi_event_t *) debug->data;
-    printf("[%d, %d, %d] =>", ddata->monome_event->event_type, ddata->monome_event->grid.x, ddata->monome_event->grid.y);
-  }
-
-  printf("\n");
-
   stop_recording(session);
-
-  // TODO Setup a semaphore
   session->current_loop->looping = true;
   pthread_t * loop_playback_thread = calloc(1, sizeof(pthread_t));
 

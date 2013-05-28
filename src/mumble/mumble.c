@@ -2,7 +2,6 @@
 #include "mumble.h"
 
 void button_handler(const monome_event_t *e, void *user_data) { 
-  printf("Handler called:");
   mumble_t *mumble = (mumble_t*) user_data;
 
   // TODO Would be good to refactor this out from muxer
@@ -13,7 +12,6 @@ void button_handler(const monome_event_t *e, void *user_data) {
   event_y = e->grid.y;
   event_type = e->event_type;
 
-  printf("Dispatching event: [%d, %d] to callback: %d\n", event_x, event_y, ((event_y * MONOME_ROWS) + (event_x)));  
   mumble_dispatcher_t * dispatcher = &(mumble->muxer->dispatchers[(event_y * MONOME_ROWS) + event_x]);
 
   if(dispatcher == NULL) {
@@ -44,13 +42,11 @@ mumble_t * mumble_init(mumble_t* mumble) {
   monome = monome_open(config->monome_path, "8000");
 
   // TODO handle more gracefully
-  printf("Opening midi device...");
   mumble->midi_fd = open(config->midi_device, O_WRONLY, 0);
   if (mumble->midi_fd < 0) {
     printf("Error:  Could not open %s\n", config->midi_device);
     return NULL;
   }
-  printf("done.\n");
 
   mumble->monome = monome;
   if(&mumble->monome == NULL) {
@@ -243,7 +239,6 @@ unsigned char * midi_data_from_monome_event(unsigned char * midi_data, const mon
   event_type = e->event_type;  
 
   int midi_note = (mumble->root + ((event_y * 8) + event_x));  
-  printf("MIDI NOTE: %d", midi_note);
   midi_data[1] = midi_note;
   midi_data[2] = mumble->velocity;  
 

@@ -5,6 +5,8 @@ TEST_CFLAGS= $(CFLAGS) -lcheck
 TARGET_OBJS=bin/build/mumble/*.o
 TEST_TARGET_OBJS=bin/build/mumble/*.o bin/build/*.o
 
+# TODO This is a rather naiive way to approach building the project
+#      There should be someway to collect all buildable files and link them accordingly
 all:
 	mkdir -p bin/build/mumble
 	$(CC) -c src/mumble/list.c $(LDFLAGS) $(CFLAGS) -o bin/build/mumble/list.o
@@ -20,7 +22,7 @@ all:
 
 test:
 	mkdir -p bin/test
-	$(CC)  tests/mumble/list_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/list_test
+	$(CC) tests/mumble/list_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/list_test
 	$(CC) tests/mumble/config_node_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/config_node_test
 	$(CC) tests/mumble/session_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/session_test
 	$(CC) tests/mumble/loop_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/loop_test
