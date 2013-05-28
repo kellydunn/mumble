@@ -2,6 +2,7 @@
 #include <check.h>
 #include "../../src/types.h"
 #include "../../src/mumble/session.h"
+#include "../../src/mumble/loop.h"
 
 // Ensure a new session can be made with the expected state
 // ✔ Session should be false
@@ -21,12 +22,26 @@ START_TEST (test_new_session) {
   fail_if(!(session->max_time > 0), "Associated max_time is not an acceptable value.");
 } END_TEST
 
+// Ensure a session can add loops
+// ✔ Loops should not be empty after adding a loop
+START_TEST (test_add_loop) {
+  // TODO Test if loop at a specific index is the one we added
+  //      This will be possible when lists are able to index elements
+  mumble_session_t * session = new_session();
+  mumble_loop_t * loop = new_loop(session);
+  
+  add_loop(session, loop);
+  
+  fail_if(is_empty(session->loops), "Loops are unexpectedly empty");  
+} END_TEST
+
 Suite * new_session_suite() {
   Suite * s = suite_create("session");
 
   TCase * tc_core = tcase_create("Core");
 
   tcase_add_test(tc_core, test_new_session);
+  tcase_add_test(tc_core, test_add_loop);
 
   suite_add_tcase(s, tc_core);
 

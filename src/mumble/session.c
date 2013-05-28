@@ -1,6 +1,7 @@
 #include "list.h"
 #include "session.h"
 
+// @return {mumble_session_t*} Returns a new mumble session with expected associated data.
 mumble_session_t * new_session(mumble_t * mumble) {
   mumble_session_t * session = calloc(1, sizeof(mumble_session_t));
   session->recording = false;
