@@ -16,7 +16,7 @@ START_TEST (test_new_config_node) {
 } END_TEST
 
 // Ensure a single value is appended to a list as expected
-// ✔ Appending once should result in a non-NULL key value
+// ✔ Appending once should result in a non-NULL `key` value
 START_TEST (test_config_node_append_data) {
   mumble_config_node_t * node = new_config_node();
 
@@ -26,8 +26,9 @@ START_TEST (test_config_node_append_data) {
   fail_if(node->value != NULL, "Unexpected `value` value.");
 } END_TEST
 
-// Ensure a single value is appended to a list as expected
-// ✔ Appending once should result in a non-NULL key value
+// Ensure that two values appended to a config_node match as expected
+// ✔ Appending once should result in a non-NULL `key` value
+// ✔ Appending again should result in a non-NULL `value` value
 START_TEST (test_config_node_append_data2) {
   mumble_config_node_t * node = new_config_node();
 
@@ -38,11 +39,15 @@ START_TEST (test_config_node_append_data2) {
   fail_if(node->value != "test-value", "Unexpected `value` value.");
 } END_TEST
 
-// Ensure a single value is appended to a list as expected
-// ✔ Head should be updated
-// ✔ Tail should be updated
-// ✔ Data should be the same
+// Ensure that config_node is complete when key and value are both set
+// ✔ Node should correctly reflect its state when both key and value are set.
 START_TEST (test_config_node_is_complete) {
+  mumble_config_node_t * node = new_config_node();
+
+  config_node_append_data(node, "test-key");
+  config_node_append_data(node, "test-value");
+
+  fail_if(!config_node_is_complete(node), "Incorrect node state.");
 } END_TEST
 
 Suite * new_config_node_suite() {
@@ -53,7 +58,7 @@ Suite * new_config_node_suite() {
   tcase_add_test(tc_core, test_new_config_node);
   tcase_add_test(tc_core, test_config_node_append_data);
   tcase_add_test(tc_core, test_config_node_append_data2);
-  //tcase_add_test(tc_core, test_config_node_is_complete);
+  tcase_add_test(tc_core, test_config_node_is_complete);
 
   suite_add_tcase(s, tc_core);
 
