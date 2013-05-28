@@ -20,13 +20,15 @@ all:
 
 test:
 	mkdir -p bin/test
-	$(CC)  tests/mumble/list_test.c $(LDFLAGS) $(TEST_CFLAGS) bin/build/mumble/list.o -o bin/list_test
-	$(CC) tests/mumble/config_node_test.c $(LDFLAGS) $(TEST_CFLAGS) bin/build/mumble/config_node.o -o bin/config_node_test
+	$(CC)  tests/mumble/list_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/list_test
+	$(CC) tests/mumble/config_node_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/config_node_test
 	$(CC) tests/mumble/session_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/session_test
+	$(CC) tests/mumble/loop_test.c $(LDFLAGS) $(TEST_CFLAGS) $(TEST_TARGET_OBJS) -o bin/loop_test
 
 	./bin/list_test
 	./bin/config_node_test
 	./bin/session_test
+	./bin/loop_test
 clean:
 	rm -rf bin/*
 

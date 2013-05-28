@@ -1,3 +1,7 @@
+// This represents a single loop in a mumble session.
+// A loop contains a collection of events at specfic times and is able to replay them in the order they were recorded.
+// A loop plays for a specific amount of time, then starts at the begining of its even list and replays itself indefinitely.
+
 #include "stdio.h"
 #include "stdlib.h"
 #include "loop.h"
@@ -5,6 +9,7 @@
 #include "list.h"
 #include "mumble.h"
 
+// @return {mumble_loop_t*} A new mumble loop.
 mumble_loop_t * new_loop(mumble_session_t * session) {
   mumble_loop_t * loop = calloc(1, sizeof(mumble_loop_t));
   loop->looping = false;
@@ -12,12 +17,11 @@ mumble_loop_t * new_loop(mumble_session_t * session) {
   loop->events = (mumble_list_t *) new_list();
   loop->session = session;
   loop->duration = 0;
+  return loop;
 }
 
 // Adds a midi event
 void add_midi_event(mumble_loop_t * loop, mumble_midi_event_t * event) {
-  // printf("Adding midi event!\n");
-  // printf("  [event_type:%d, event_x:%d, event_y%d]!\n", event->monome_event->event_type, event->monome_event->grid.x, event->monome_event->grid.y);
   list_append(loop->events, event);
 }
 
@@ -42,6 +46,7 @@ void * loop_playback(void * args) {
   return NULL;
 }
 
+// TODO nomenclature is rather bad here, lets rename this to better fit the api direction
 void loop_playback_midi_event(const monome_event_t * e, void * user_data) {
   // TODO Refactor with play_midi in dispatch_functions.c
   

@@ -1,6 +1,7 @@
 #include "stdlib.h"
 #include "list.h"
 
+// @return {mumble_list_t*} list.  A new list.
 mumble_list_t * new_list() {
   mumble_list_t * list = calloc(1, sizeof(mumble_list_t));
   list_init(list);
