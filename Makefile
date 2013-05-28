@@ -3,6 +3,7 @@ LDFLAGS= -I/usr/local/lib:/usr/lib
 CFLAGS= -lmonome -lpthread -lyaml
 TEST_CFLAGS= $(CFLAGS) -lcheck 
 TARGET_OBJS=bin/build/mumble/*.o
+TEST_TARGET_OBJS=bin/*.o
 
 all:
 	mkdir -p bin/build/mumble
@@ -18,8 +19,11 @@ all:
 
 test:
 	mkdir -p bin/test
-	$(CC) tests/mumble/list_test.c $(LDFLAGS) $(TEST_CFLAGS) bin/build/mumble/list.o -o bin/list_test
+	$(CC)  tests/mumble/list_test.c $(LDFLAGS) $(TEST_CFLAGS) bin/build/mumble/list.o -o bin/list_test
+	$(CC) tests/mumble/config_node_test.c $(LDFLAGS) $(TEST_CFLAGS) bin/build/mumble/config_node.o -o bin/config_node_test
 
+	./bin/list_test
+	./bin/config_node_test
 clean:
 	rm -rf bin/*
 

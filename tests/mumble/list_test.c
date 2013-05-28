@@ -138,13 +138,13 @@ Suite * new_list_suite() {
 }
 
 int main() {
-  int num_failed;
-  
+  // Run list_suite
+  int num_failed = 0;
+
   Suite * list_suite = new_list_suite();
   SRunner * list_suite_runner = srunner_create(list_suite);
-  
-  srunner_run_all(list_suite_runner, CK_NORMAL);
 
+  srunner_run_all(list_suite_runner, CK_NORMAL);
   num_failed = srunner_ntests_failed(list_suite_runner);
 
   srunner_free(list_suite_runner);
