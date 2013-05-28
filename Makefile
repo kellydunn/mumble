@@ -15,7 +15,8 @@ all:
 	$(CC) -c src/mumble/muxer.c $(LDFLAGS) $(CFLAGS) -o bin/build/mumble/muxer.o
 	$(CC) -c src/mumble/loop.c $(LDFLAGS) $(CFLAGS) -o bin/build/mumble/loop.o
 	$(CC) -c src/mumble/session.c $(LDFLAGS) $(CFLAGS) -o bin/build/mumble/session.o
-	$(CC) src/mumble.c $(LDFLAGS) $(CFLAGS) $(TARGET_OBJS) -o bin/mumble
+	$(CC) -c src/mumble/mumble.c $(LDFLAGS) $(CFLAGS)  -o bin/build/mumble.o
+	$(CC) src/main.c $(LDFLAGS) $(CFLAGS) $(TARGET_OBJS) src/mumble/mumble.c -o bin/mumble
 
 test:
 	mkdir -p bin/test

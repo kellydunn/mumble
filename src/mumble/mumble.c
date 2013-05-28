@@ -1,7 +1,7 @@
 #include <monome.h>
 #include "mumble.h"
 
-static void button_handler(const monome_event_t *e, void *user_data) { 
+void button_handler(const monome_event_t *e, void *user_data) { 
   printf("Handler called:");
   mumble_t *mumble = (mumble_t*) user_data;
 
@@ -226,24 +226,6 @@ void mumble_intro(mumble_t * mumble) {
 
   // Back to normal
   monome_led_intensity(mumble->monome, 0xF);
-}
-
-int main() {
-  mumble_t * mumble;
-
-  mumble = mumble_init(mumble);
-
-  monome_register_handler(mumble->monome, MONOME_BUTTON_DOWN, button_handler, (void *)mumble);
-  monome_register_handler(mumble->monome, MONOME_BUTTON_UP, button_handler, (void *)mumble);
-
-  mumble_intro(mumble);
-
-  monome_event_loop(mumble->monome);
-
-  monome_close(mumble->monome);
-  close(mumble->midi_fd);
-
-  return 0;
 }
 
 // Generates a midi message from a monome event.

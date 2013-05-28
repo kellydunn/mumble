@@ -3,6 +3,7 @@
 #include "loop.h"
 #include "time.h"
 #include "list.h"
+#include "mumble.h"
 
 mumble_loop_t * new_loop(mumble_session_t * session) {
   mumble_loop_t * loop = calloc(1, sizeof(mumble_loop_t));
