@@ -3,7 +3,7 @@
 
 // @return {mumble_muxer_t*} muxer.  A newly initialized muxer made with the default muxer, 
 //         or NULL if no memory can be allocated.
-mumble_muxer_t * new_muxer() {
+mumble_muxer_t * new_muxer(mumble_t * mumble) {
   mumble_muxer_t * muxer = calloc(1, sizeof(mumble_muxer_t));
 
   if(muxer == NULL) {
@@ -22,7 +22,8 @@ mumble_muxer_t * new_muxer() {
 
   for(y = 0; y < MONOME_ROWS; y++) {
     for(x = 0; x < MONOME_COLS; x++) {
-      if(y == 0) {
+      // TODO determine better way of handling a managed monome.
+      if(y == 0 && mumble->conf->managed == "false") {
         handle_func(muxer, x, record_midi);
       } else {
         handle_func(muxer, ((y * MONOME_ROWS) + x), play_midi);

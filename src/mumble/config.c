@@ -14,6 +14,7 @@ mumble_config_t * new_config(char * filename) {
 
   config->monome_path = get_config_data(config_elements, "monome_path");
   config->midi_device = get_config_data(config_elements, "midi_device");
+  config->managed = get_config_data(config_elements, "managed");
 
   return config;
 }

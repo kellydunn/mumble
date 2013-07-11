@@ -124,6 +124,7 @@ struct mumble_list_node {
 struct mumble_config {
   char * monome_path;
   char * midi_device;
+  char * managed;
 };
 
 struct mumble_config_node {
