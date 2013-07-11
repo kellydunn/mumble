@@ -22,8 +22,11 @@ mumble_muxer_t * new_muxer(mumble_t * mumble) {
 
   for(y = 0; y < MONOME_ROWS; y++) {
     for(x = 0; x < MONOME_COLS; x++) {
-      // TODO determine better way of handling a managed monome.
-      if(y == 0 && mumble->conf->managed == "false") {
+      // If a user specifies that the monome is to be managed 
+      // locally, then we can apply the default mux.
+      // TODO Determine better way of handling a managed monome.
+      //      It is unclear if having the user specify this in the configuration file is the best approach.
+      if(mumble->conf->managed == "true" && y == 0) {
         handle_func(muxer, x, record_midi);
       } else {
         handle_func(muxer, ((y * MONOME_ROWS) + x), play_midi);

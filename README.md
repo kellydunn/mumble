@@ -50,7 +50,11 @@ You can configure mumble to use the monomes and midi devices you so desire by cr
 # in ~/.mumble/config.yml
 monome_path: "osc.udp://127.0.0.1:12345/monome"
 midi_device: "/dev/snd/midiC1D1"
+managed: true
 ```
+  - *monome_path* is the url accessible path to your monome.
+  - *midi_device* is the file descriptor that points to your midi device.  Virtual Midi devices may also be connected, which is paticularly useful if you're using mumble as a middle-man to connect to other MIDI-enabled software.
+  - *managed* specifies if the monome is controlled by mumble's features (currently looping and playing midi notes), or if the monome should be configured by a third party.  If set to `false`, the monome will only send ON and OFF messages to the midi_device.
 
 # tests
 
