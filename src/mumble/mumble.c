@@ -57,7 +57,12 @@ mumble_t * mumble_init(mumble_t* mumble) {
 
   mumble->muxer = muxer;
   mumble->session = session;
-  mumble->root = LOW_C;
+
+  if(mumble->conf->managed) {
+    mumble->root = LOW_C;
+  } else {
+    mumble->root = 0;
+  }
   mumble->velocity = VELOCITY;
   mumble->bpm = BPM;
 
