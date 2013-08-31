@@ -119,6 +119,30 @@ START_TEST (test_append_2_pop_2_list) {
   fail_if(!is_empty(list), "List does not report itself as empty");
 } END_TEST
 
+// Ensure a list can be reversed with the expected values
+// ✔ Data should be ordered as expected
+START_TEST (test_reverse_list) {
+  mumble_list_t * list = (mumble_list_t *) new_list();
+  char * vals[4] = {"foo", "bar", "baz", "buz"};
+  char * reversed_vals[4] = {"buz", "baz", "bar", "foo"};
+
+  int i;
+  for(i = 0; i < 4; i++) {
+    list_append(list, vals[i]);  
+  }
+  
+  mumble_list_t * reversed_list = (mumble_list_t*) list_reverse(list);
+
+  mumble_list_node_t * rev_current = reversed_list->head;
+  int rev_count;
+
+  for(rev_count = 0; rev_count < 4; rev_count++) {
+    fail_if(strcmp(rev_current->data, reversed_vals[rev_count]) != 0, "Unexpected data");
+    rev_current = rev_current->next;
+  }
+
+} END_TEST
+
 Suite * new_list_suite() {
   Suite * s = suite_create("list");
 
@@ -131,6 +155,8 @@ Suite * new_list_suite() {
   tcase_add_test(tc_core, test_append_1_pop_1_list);
   tcase_add_test(tc_core, test_append_2_pop_1_list);
   tcase_add_test(tc_core, test_append_2_pop_2_list);
+
+  tcase_add_test(tc_core, test_reverse_list);
 
   suite_add_tcase(s, tc_core);
 

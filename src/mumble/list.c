@@ -87,6 +87,22 @@ mumble_list_node_t * list_pop(mumble_list_t * list) {
   }
 }
 
+// TODO Implement
+mumble_list_t * list_reverse(mumble_list_t * list) {
+  mumble_list_node_t * current = list->head;
+  mumble_list_node_t * tmp = current;
+  mumble_list_node_t * res = NULL;
+
+  while(current != NULL) {
+    tmp = current->next;
+    current->next = res;
+    res = current;
+    current = tmp;
+  }
+
+  return res;
+} 
+
 // Returns whether or not the list has no nodes
 bool is_empty(mumble_list_t * list) {
   return (list->head == NULL && list->tail == NULL);
